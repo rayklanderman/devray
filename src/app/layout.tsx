@@ -14,6 +14,7 @@ export const metadata: Metadata = {
   icons: {
     icon: '/cropped_circle_image.png',
     apple: '/cropped_circle_image.png',
+    shortcut: '/cropped_circle_image.png',
   },
 };
 
