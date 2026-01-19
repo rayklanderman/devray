@@ -12,9 +12,9 @@ export const metadata: Metadata = {
     type: "website",
   },
   icons: {
-    icon: '/cropped_circle_image.png',
-    apple: '/cropped_circle_image.png',
-    shortcut: '/cropped_circle_image.png',
+    icon: '/favicon.ico',
+    apple: '/favicon.ico',
+    shortcut: '/favicon.ico',
   },
 };
 
