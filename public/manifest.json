@@ -1,0 +1,16 @@
+{
+  "name": "DevRay Portfolio",
+  "short_name": "DevRay",
+  "description": "Raymond Klanderman - Full-Stack Developer & AI Engineer",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/cropped_circle_image.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
