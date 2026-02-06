@@ -122,14 +122,12 @@ export default function DevRayChat() {
     setIsLoading(true);
 
     try {
-      const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
         },
         body: JSON.stringify({
-          model: 'llama-3.3-70b-versatile',
           messages: [
             {
               role: 'system',
@@ -144,9 +142,6 @@ export default function DevRayChat() {
               content: userMessage.content,
             },
           ],
-          temperature: 0.7,
-          max_tokens: 2000,
-          top_p: 0.9,
         }),
       });
 
