@@ -12,13 +12,13 @@ export const metadata = {
 
 export default function ChatPage() {
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-ink-950">
       <Header />
       <main>
         <div className="pt-16 px-4">
           <Link
             href="/"
-            className="inline-flex items-center text-gray-400 hover:text-white transition-colors text-sm"
+            className="inline-flex items-center text-parchment-500 hover:text-ochre-300 transition-colors text-sm"
           >
             <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />

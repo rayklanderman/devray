@@ -1,6 +1,8 @@
 'use client';
 
 import { services } from '@/data';
+import { motion } from 'motion/react';
+import { StaggerGrid, staggerItem, Reveal } from '@/components/motion/Reveal';import TiltCard from '@/components/motion/TiltCard';
 
 const iconMap: Record<string, React.ReactNode> = {
   globe: (
@@ -50,44 +52,68 @@ const iconMap: Record<string, React.ReactNode> = {
   ),
 };
 
+const coreServices = services.filter((s) => s.tier === 'core');
+const additionalServices = services.filter((s) => s.tier === 'additional');
+
+function ProofLink({ label, url }: { label: string; url: string }) {
+  return (
+    <a href={url} target="_blank" rel="noopener noreferrer"
+      className="mt-4 inline-flex items-center gap-2 text-ochre-400 hover:text-ochre-300
+                 text-sm font-medium group/proof">
+      <span className="w-2 h-2 rounded-full bg-ochre-400 animate-pulse" />
+      {label}
+      <span className="transition-transform group-hover/proof:translate-x-1">→</span>
+    </a>
+  );
+}
+
 export default function Services() {
   return (
-    <section id="services" className="py-20 bg-black">
+    <section id="services" className="py-20 bg-ink-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-white mb-4">
+        <Reveal className="text-center mb-16">
+          <h2 className="text-4xl font-bold text-parchment-100 mb-4">
             Services
           </h2>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-            Comprehensive digital solutions tailored to bring your vision to life. 
+          <p className="text-xl text-parchment-300 max-w-3xl mx-auto">
+            Comprehensive digital solutions tailored to bring your vision to life.
             From code to content, we deliver results that matter.
           </p>
-        </div>
+        </Reveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service, index) => (
-            <div
+        <Reveal className="mb-4">
+          <p className="text-xs font-medium text-ochre-400 mb-6 uppercase tracking-widest">
+            Primary Billing
+          </p>
+        </Reveal>
+
+        <StaggerGrid className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+          {coreServices.map((service) => (
+            <TiltCard
               key={service.id}
-              className="group p-8 bg-gray-900 rounded-2xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-gray-800"
-              style={{ animationDelay: `${index * 100}ms` }}
+              variants={staggerItem}
+              className="group p-8 bg-ink-800 rounded-2xl border border-ochre-500/40
+                hover:border-ochre-500/50 hover:shadow-[0_8px_40px_-12px_rgba(212,162,78,0.25)]
+                transition-all duration-300 relative overflow-hidden"
             >
-              <div className="w-16 h-16 bg-gray-800 rounded-xl flex items-center justify-center text-white mb-6 group-hover:bg-gray-700 transition-transform">
+              <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-ochre-400 to-transparent" />
+              <div className="w-16 h-16 bg-ink-900 rounded-xl flex items-center justify-center text-ochre-400 mb-6 border border-ochre-500/40 transition-transform">
                 {iconMap[service.icon]}
               </div>
 
-              <h3 className="text-2xl font-bold text-white mb-4">
+              <h3 className="text-2xl font-bold text-parchment-100 mb-4">
                 {service.title}
               </h3>
 
-              <p className="text-gray-400 mb-6">
+              <p className="text-parchment-300 mb-6">
                 {service.description}
               </p>
 
               <ul className="space-y-3">
-                {service.features.map((feature, idx) => (
+                {service.features.slice(0, 3).map((feature, idx) => (
                   <li key={idx} className="flex items-start">
                     <svg
-                      className="w-5 h-5 text-white mr-3 mt-0.5 flex-shrink-0"
+                      className="w-5 h-5 text-ochre-400 mr-3 mt-0.5 flex-shrink-0"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -99,21 +125,25 @@ export default function Services() {
                         d="M5 13l4 4L19 7"
                       />
                     </svg>
-                    <span className="text-gray-300 text-sm">{feature}</span>
+                    <span className="text-parchment-300 text-sm">{feature}</span>
                   </li>
                 ))}
               </ul>
 
+              {service.proof && (
+                <ProofLink label={service.proof.label} url={service.proof.url} />
+              )}
+
               {service.technologies && (
-                <div className="mt-6 pt-6 border-t border-gray-800">
-                  <p className="text-xs font-medium text-gray-500 mb-3 uppercase tracking-wider">
+                <div className="mt-6 pt-6 border-t border-ink-700">
+                  <p className="text-xs font-medium text-parchment-500 mb-3 uppercase tracking-wider">
                     Technologies
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {service.technologies.map((tech) => (
                       <span
                         key={tech}
-                        className="px-2 py-1 bg-gray-800 text-gray-300 rounded text-xs font-medium border border-gray-700"
+                        className="px-2 py-1 bg-ink-900 text-parchment-300 rounded text-xs font-medium border border-ink-700"
                       >
                         {tech}
                       </span>
@@ -121,9 +151,60 @@ export default function Services() {
                   </div>
                 </div>
               )}
-            </div>
+            </TiltCard>
           ))}
-        </div>
+        </StaggerGrid>
+
+        <Reveal className="mb-4">
+          <p className="text-xs font-medium text-parchment-500 mb-6 uppercase tracking-widest">
+            Additional Services
+          </p>
+        </Reveal>
+
+        <StaggerGrid className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {additionalServices.map((service) => (
+            <motion.div
+              key={service.id}
+              variants={staggerItem}
+              className="group p-6 bg-ink-900 rounded-2xl border border-ink-700
+                hover:border-ochre-500/40 hover:shadow-[0_8px_40px_-12px_rgba(212,162,78,0.15)]
+                transition-all duration-300"
+            >
+              <div className="w-12 h-12 bg-ink-800 rounded-lg flex items-center justify-center text-ochre-400 mb-4 border border-ink-700">
+                {iconMap[service.icon]}
+              </div>
+
+              <h3 className="text-lg font-bold text-parchment-100 mb-2">
+                {service.title}
+              </h3>
+
+              <p className="text-parchment-500 text-sm mb-4">
+                {service.description}
+              </p>
+
+              <ul className="space-y-2">
+                {service.features.slice(0, 3).map((feature, idx) => (
+                  <li key={idx} className="flex items-start">
+                    <svg
+                      className="w-4 h-4 text-ochre-400 mr-2 mt-0.5 flex-shrink-0"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                    <span className="text-parchment-300 text-sm">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          ))}
+        </StaggerGrid>
       </div>
     </section>
   );

@@ -25,21 +25,24 @@ const socialIcons: Record<string, ReactElement> = {
   ),
 };
 
+const coreServices = services.filter((s) => s.tier === 'core');
+
 export default function Footer() {
   return (
-    <footer className="bg-black text-gray-300 border-t border-gray-800">
+    <footer className="bg-ink-950 text-parchment-300 border-t border-ink-700">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="space-y-4">
             <Link href="#home" className="flex items-center space-x-2">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/cropped_circle_image.png"
                 alt="DevRay Logo"
                 className="w-10 h-10 rounded-lg object-cover"
               />
-              <span className="text-xl font-bold text-white">DevRay</span>
+              <span className="text-xl font-bold text-parchment-100">DevRay</span>
             </Link>
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-parchment-500">
               {professionalProfile.bio}
             </p>
             <div className="flex space-x-4">
@@ -49,7 +52,7 @@ export default function Footer() {
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-white transition-colors"
+                  className="text-parchment-500 hover:text-ochre-300 transition-colors"
                   aria-label={social.platform}
                 >
                   {socialIcons[social.icon]}
@@ -59,29 +62,63 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="text-white font-semibold mb-4">Services</h3>
+            <h3 className="text-parchment-100 font-semibold mb-4">Services</h3>
             <ul className="space-y-2 text-sm">
-              {services.slice(0, 4).map((service) => (
+              {coreServices.map((service) => (
                 <li key={service.id}>
                   <Link
-                    href={`#${service.id}`}
-                    className="hover:text-white transition-colors"
+                    href="#services"
+                    className="hover:text-ochre-300 transition-colors"
                   >
                     {service.title}
                   </Link>
                 </li>
               ))}
+              {services.slice(3, 4).map((service) => (
+                <li key={service.id}>
+                  <Link
+                    href="#services"
+                    className="hover:text-ochre-300 transition-colors"
+                  >
+                    {service.title}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <Link
+                  href="#services"
+                  className="text-parchment-500 hover:text-ochre-300 transition-colors"
+                >
+                  +6 more services
+                </Link>
+              </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="text-white font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-parchment-100 font-semibold mb-4">Founder</h3>
+            <ul className="space-y-2 text-sm">
+              <li>
+                <a
+                  href="https://rayklanderman.is-a.dev/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-ochre-300 transition-colors"
+                >
+                  Raymond Klanderman
+                </a>
+              </li>
+              <li className="text-parchment-500">
+                Full Engineering Profile
+              </li>
+            </ul>
+            <h3 className="text-parchment-100 font-semibold mb-4 mt-6">Quick Links</h3>
             <ul className="space-y-2 text-sm">
               {navItems.map((item) => (
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    className="hover:text-white transition-colors"
+                    className="hover:text-ochre-300 transition-colors"
                   >
                     {item.label}
                   </Link>
@@ -91,14 +128,14 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="text-white font-semibold mb-4">Contact</h3>
+            <h3 className="text-parchment-100 font-semibold mb-4">Contact</h3>
             <ul className="space-y-2 text-sm">
               <li>Available for freelance projects</li>
               <li>Open to collaboration</li>
               <li>
                 <a
                   href="mailto:info@devray.site"
-                  className="hover:text-white transition-colors"
+                  className="hover:text-ochre-300 transition-colors"
                 >
                   info@devray.site
                 </a>
@@ -106,7 +143,7 @@ export default function Footer() {
               <li>
                 <a
                   href="mailto:support@devray.site"
-                  className="hover:text-white transition-colors"
+                  className="hover:text-ochre-300 transition-colors"
                 >
                   support@devray.site
                 </a>
@@ -115,7 +152,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
+        <div className="border-t border-ink-700 mt-8 pt-8 text-center text-sm text-parchment-500">
           <p>&copy; {new Date().getFullYear()} DevRay. All rights reserved.</p>
           <p className="mt-2">
             Built with Next.js, TypeScript, and Tailwind CSS

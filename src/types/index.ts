@@ -5,6 +5,8 @@ export interface Service {
   icon: string;
   features: string[];
   technologies?: string[];
+  tier: 'core' | 'additional';
+  proof?: { label: string; url: string };
 }
 
 export interface Project {
@@ -16,6 +18,8 @@ export interface Project {
   liveUrl?: string;
   githubUrl?: string;
   featured: boolean;
+  tier: 'signature' | 'secondary';
+  award?: string;
 }
 
 export interface Education {
@@ -47,4 +51,15 @@ export interface SocialLink {
   platform: string;
   url: string;
   icon: string;
+}
+
+export interface FounderLink {
+  label: string;
+  url: string;
+}
+
+export interface NamedCredential {
+  title: string;
+  issuer: string;
+  url: string;
 }

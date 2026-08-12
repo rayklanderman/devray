@@ -1,51 +1,32 @@
+'use client';
+
 import { ReactElement } from 'react';
 import Link from 'next/link';
+import { motion, useReducedMotion } from 'motion/react';
+import dynamic from 'next/dynamic';
 import { socialLinks, services } from '@/data';
+import MagneticButton from '@/components/motion/MagneticButton';
+import StaticHeroCard from '@/components/three/StaticHeroCard';
+
+const HeroScene = dynamic(() => import('@/components/three/HeroScene'), {
+  ssr: false,
+  loading: () => <StaticHeroCard />,
+});
 
 const serviceIcons: Record<string, ReactElement> = {
-  'web-development': (
-    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-    </svg>
-  ),
-  'data-analysis': (
-    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-    </svg>
-  ),
-  'machine-learning': (
-    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-    </svg>
-  ),
   'ai-development': (
-    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
     </svg>
   ),
-  'wordpress-development': (
-    <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-      <path d="M12 2c5.5 0 10 4.5 10 10s-4.5 10-10 10S2 17.5 2 12 6.5 2 12 2zM4.5 12c0-2.7 1.5-5 3.8-6.3.7 2.3 2.5 4.3 4.7 4.8-.5-.8-.8-1.8-.8-2.8 0-3.3 2.7-6 6-6 1.5 0 2.8.5 3.8 1.4l-1.4 1.4c-.6-.4-1.3-.7-2.1-.7-2.2 0-4 1.8-4 4s1.8 4 4 4c1.2 0 2.3-.5 3.1-1.2.8 1.4 2.2 2.3 3.9 2.3 2.5 0 4.5-2 4.5-4.5 0-.4-.1-.8-.2-1.2 1.2-.4 2.2-1.3 2.7-2.4.3-.6.4-1.3.4-2 0-3.6-2.8-6.5-6.3-6.7.3-.5.5-1 .5-1.6 0-2.5-2-4.5-4.5-4.5-2 0-3.7 1.3-4.3 3.1C9.3 4.4 8.1 4 6.8 4 4.4 4 2.5 5.8 2.5 8c0 1.6.9 3 2.3 3.8-.3 1.1-.5 2.3-.3 3.5.5.2 1.1.3 1.6.3 1.2 0 2.2-.4 3.1-1 1.3 1.7 3.3 2.5 5.3 2.2-.5-1.2-.7-2.5-.7-3.8 0-2.2.8-4.3 2.2-5.8-.9-.3-1.7-.9-2.4-1.6-.8-.9-1.4-2-1.6-3.2-.5.1-1 .1-1.5.1z"/>
+  'machine-learning': (
+    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
     </svg>
   ),
-  'digital-media': (
-    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-    </svg>
-  ),
-  'content-creation': (
-    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-    </svg>
-  ),
-  'live-streaming': (
-    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-    </svg>
-  ),
-  'mobile-development': (
-    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+  'web-development': (
+    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
     </svg>
   ),
 };
@@ -73,52 +54,117 @@ const socialIcons: Record<string, ReactElement> = {
   ),
 };
 
+const coreServices = services.filter((s) => s.tier === 'core');
+
 export default function Hero() {
+  const reduce = useReducedMotion();
+
+  const showWebGL = () => {
+    if (typeof window === 'undefined') return false;
+    if (reduce) return false;
+    if (typeof navigator !== 'undefined' && navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) {
+      return false;
+    }
+    return true;
+  };
+
   return (
-    <section
-      id="home"
-      className="min-h-screen flex items-center justify-center bg-black pt-16"
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+    <section id="home" className="min-h-screen flex items-center justify-center bg-ink-950 pt-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-8">
+          <motion.div
+            className="space-y-8"
+            initial={reduce ? false : { opacity: 0, y: 32 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.21, 0.47, 0.32, 0.98] }}
+          >
             <div className="space-y-2">
-              <p className="text-gray-400 font-medium text-lg">
-                Professional Services
-              </p>
-              <h1 className="text-5xl md:text-6xl font-bold text-white leading-tight">
-                We Build Digital
-                <span className="block text-gray-500">Solutions That</span>
-                <span className="block">Work</span>
+              <motion.p
+                className="text-ochre-400 font-medium text-sm tracking-widest uppercase"
+                initial={reduce ? false : { opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+              >
+                DevRay Lab — Client Case Files &amp; Solutions
+              </motion.p>
+              <h1 className="text-5xl md:text-6xl font-bold text-parchment-100 leading-tight">
+                <motion.span
+                  className="block"
+                  initial={reduce ? false : { opacity: 0, y: 32 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2, ease: [0.21, 0.47, 0.32, 0.98] }}
+                >
+                  We Build Digital
+                </motion.span>
+                <motion.span
+                  className="block text-ochre-400"
+                  initial={reduce ? false : { opacity: 0, y: 32 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.32, ease: [0.21, 0.47, 0.32, 0.98] }}
+                >
+                  Solutions That
+                </motion.span>
+                <motion.span
+                  className="block"
+                  initial={reduce ? false : { opacity: 0, y: 32 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.44, ease: [0.21, 0.47, 0.32, 0.98] }}
+                >
+                  Work
+                </motion.span>
               </h1>
             </div>
 
-            <p className="text-gray-400 text-lg max-w-xl leading-relaxed">
-              Expert development services in web applications, data analysis, machine learning, 
-              AI solutions, WordPress, digital media, content creation, live streaming, and mobile apps. Turn your ideas 
-              into reality with cutting-edge technology.
-            </p>
+            <motion.p
+              className="text-parchment-300 text-lg max-w-xl leading-relaxed"
+              initial={reduce ? false : { opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.55 }}
+            >
+              Expert development services in AI solutions, machine learning, and web applications.
+              Turn your ideas into reality with cutting-edge technology.
+            </motion.p>
 
-            <div className="grid grid-cols-2 gap-4">
-              {services.slice(0, 6).map((service) => (
+            <motion.div
+              className="flex flex-wrap gap-4"
+              initial={reduce ? false : { opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.7 }}
+            >
+              {coreServices.map((service) => (
                 <div
                   key={service.id}
-                  className="flex items-center space-x-3 p-3 bg-gray-900 rounded-lg border border-gray-800"
+                  className="flex items-center space-x-3 p-3 bg-ink-900 rounded-lg border border-ochre-500/40"
                 >
-                  <div className="text-gray-400">
+                  <div className="text-ochre-400">
                     {serviceIcons[service.icon]}
                   </div>
-                  <span className="text-gray-300 text-sm font-medium">
+                  <span className="text-parchment-300 text-sm font-medium">
                     {service.title}
                   </span>
                 </div>
               ))}
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
               <Link
+                href="#services"
+                className="inline-flex items-center space-x-2 p-3 text-ochre-400 hover:text-ochre-300 transition-colors text-sm font-medium"
+              >
+                <span>+6 more services</span>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+              </Link>
+            </motion.div>
+
+            <motion.div
+              className="flex flex-col sm:flex-row gap-4 pt-4"
+              initial={reduce ? false : { opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.85 }}
+            >
+              <MagneticButton
+                as={Link}
                 href="#contact"
-                className="inline-flex items-center justify-center px-8 py-3 bg-white text-black rounded-lg hover:bg-gray-200 transition-colors font-medium"
+                className="inline-flex items-center justify-center px-8 py-3 bg-ochre-400 text-ink-950 rounded-lg hover:bg-ochre-300 transition-colors font-medium"
               >
                 Get A Quote
                 <svg
@@ -134,56 +180,69 @@ export default function Hero() {
                     d="M17 8l4 4m0 0l-4 4m4-4H3"
                   />
                 </svg>
-              </Link>
-              <Link
-                href="#services"
-                className="inline-flex items-center justify-center px-8 py-3 border-2 border-gray-700 text-white rounded-lg hover:border-gray-500 transition-colors font-medium"
+              </MagneticButton>
+              <MagneticButton
+                as={Link}
+                href="#projects"
+                className="inline-flex items-center justify-center px-8 py-3 border-2 border-ochre-500/50 text-parchment-100 rounded-lg hover:border-ochre-400 hover:text-ochre-300 transition-colors font-medium"
               >
-                View Services
-              </Link>
-            </div>
+                View Case Files
+              </MagneticButton>
+            </motion.div>
 
-            <div className="flex space-x-4 pt-4">
+            <motion.div
+              className="flex space-x-4 pt-4"
+              initial={reduce ? false : { opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 1 }}
+            >
               {socialLinks.map((social) => (
                 <a
                   key={social.platform}
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3 text-gray-500 hover:text-white hover:bg-gray-900 rounded-lg transition-all"
+                  className="p-3 text-parchment-500 hover:text-ochre-300 hover:bg-ink-900 rounded-lg transition-all"
                   aria-label={social.platform}
                 >
                   {socialIcons[social.icon]}
                 </a>
               ))}
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
-          <div className="relative">
-            <div className="w-full h-[500px] bg-gray-900 rounded-3xl shadow-2xl flex items-center justify-center border border-gray-800">
-              <div className="text-center p-8">
-                <img
-                  src="/cropped_circle_image.png"
-                  alt="DevRay Logo"
-                  className="w-40 h-40 mx-auto mb-8 rounded-full object-cover border border-gray-700"
-                />
-                <h2 className="text-3xl font-bold text-white mb-2">DevRay</h2>
-                <p className="text-gray-500">
-                  Premium Development Services
-                </p>
+          <motion.div
+            className="relative"
+            initial={reduce ? false : { opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, delay: 0.5 }}
+          >
+            {showWebGL() ? (
+              <div className="w-full h-[500px]">
+                <HeroScene />
               </div>
-            </div>
-            <div className="absolute -bottom-6 -left-6 w-24 h-24 bg-gray-800 rounded-full flex items-center justify-center border border-gray-700">
-              <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            ) : (
+              <StaticHeroCard />
+            )}
+            <motion.div
+              className="absolute -bottom-6 -left-6 w-24 h-24 bg-ink-800 rounded-full flex items-center justify-center border border-ochre-500/40"
+              animate={reduce ? undefined : { y: [0, -8, 0] }}
+              transition={reduce ? undefined : { repeat: Infinity, duration: 6 }}
+            >
+              <svg className="w-12 h-12 text-ochre-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
               </svg>
-            </div>
-            <div className="absolute -top-6 -right-6 w-24 h-24 bg-gray-800 rounded-full flex items-center justify-center border border-gray-700">
-              <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            </motion.div>
+            <motion.div
+              className="absolute -top-6 -right-6 w-24 h-24 bg-ink-800 rounded-full flex items-center justify-center border border-ochre-500/40"
+              animate={reduce ? undefined : { y: [0, -8, 0] }}
+              transition={reduce ? undefined : { repeat: Infinity, duration: 6, delay: 1 }}
+            >
+              <svg className="w-12 h-12 text-ochre-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
     </section>

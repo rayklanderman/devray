@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { services } from '@/data';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -53,15 +54,15 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-20 bg-black">
+    <section id="contact" className="py-20 bg-ink-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div className="space-y-8">
             <div>
-              <h2 className="text-4xl font-bold text-white mb-4">
+              <h2 className="text-4xl font-bold text-parchment-100 mb-4">
                 Let&apos;s Work Together
               </h2>
-              <p className="text-xl text-gray-400">
+              <p className="text-xl text-parchment-500">
                 Have a project in mind? We&apos;d love to hear about it. Fill out the form 
                 and we&apos;ll get back to you as soon as possible.
               </p>
@@ -69,65 +70,65 @@ export default function Contact() {
 
             <div className="space-y-6">
               <div className="flex items-start space-x-4">
-                <div className="w-12 h-12 bg-gray-900 rounded-xl flex items-center justify-center flex-shrink-0 border border-gray-800">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-12 h-12 bg-ink-900 rounded-xl flex items-center justify-center flex-shrink-0 border border-ink-700">
+                  <svg className="w-6 h-6 text-parchment-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-white">General Inquiries</h4>
-                  <p className="text-gray-400">info@devray.site</p>
+                  <h4 className="font-semibold text-parchment-100">General Inquiries</h4>
+                  <p className="text-parchment-500">info@devray.site</p>
                 </div>
               </div>
 
               <div className="flex items-start space-x-4">
-                <div className="w-12 h-12 bg-gray-900 rounded-xl flex items-center justify-center flex-shrink-0 border border-gray-800">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-12 h-12 bg-ink-900 rounded-xl flex items-center justify-center flex-shrink-0 border border-ink-700">
+                  <svg className="w-6 h-6 text-parchment-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
                   </svg>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-white">Support</h4>
-                  <p className="text-gray-400">support@devray.site</p>
+                  <h4 className="font-semibold text-parchment-100">Support</h4>
+                  <p className="text-parchment-500">support@devray.site</p>
                 </div>
               </div>
 
               <div className="flex items-start space-x-4">
-                <div className="w-12 h-12 bg-gray-900 rounded-xl flex items-center justify-center flex-shrink-0 border border-gray-800">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-12 h-12 bg-ink-900 rounded-xl flex items-center justify-center flex-shrink-0 border border-ink-700">
+                  <svg className="w-6 h-6 text-parchment-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-white">Location</h4>
-                  <p className="text-gray-400">Available Worldwide (Remote)</p>
+                  <h4 className="font-semibold text-parchment-100">Location</h4>
+                  <p className="text-parchment-500">Available Worldwide (Remote)</p>
                 </div>
               </div>
 
               <div className="flex items-start space-x-4">
-                <div className="w-12 h-12 bg-gray-900 rounded-xl flex items-center justify-center flex-shrink-0 border border-gray-800">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="w-12 h-12 bg-ink-900 rounded-xl flex items-center justify-center flex-shrink-0 border border-ink-700">
+                  <svg className="w-6 h-6 text-parchment-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-white">Response Time</h4>
-                  <p className="text-gray-400">Usually within 24 hours</p>
+                  <h4 className="font-semibold text-parchment-100">Response Time</h4>
+                  <p className="text-parchment-500">Usually within 24 hours</p>
                 </div>
               </div>
             </div>
 
-            <div className="bg-gray-900 rounded-2xl p-6 text-white border border-gray-800">
+            <div className="bg-ink-900 rounded-2xl p-6 text-parchment-100 border border-ink-700">
               <h4 className="font-bold mb-2">Ready to start your project?</h4>
-              <p className="text-gray-400 text-sm">
+              <p className="text-parchment-500 text-sm">
                 We&apos;re currently accepting new clients and collaboration opportunities. 
                 Let&apos;s discuss how we can bring your ideas to life.
               </p>
             </div>
           </div>
 
-          <div className="bg-gray-900 rounded-2xl p-8 border border-gray-800">
+          <div className="bg-ink-900 rounded-2xl p-8 border border-ink-700">
             <form onSubmit={handleSubmit} className="space-y-6">
               <input type="hidden" name="_subject" value="New Contact Form Submission - DevRay" />
               <input type="hidden" name="_to" value="klantrilogy@gmail.com" />
@@ -135,7 +136,7 @@ export default function Contact() {
               <div>
                 <label
                   htmlFor="name"
-                  className="block text-sm font-medium text-gray-300 mb-2"
+                  className="block text-sm font-medium text-parchment-300 mb-2"
                 >
                   Your Name
                 </label>
@@ -146,7 +147,7 @@ export default function Contact() {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-700 bg-black text-white rounded-lg focus:ring-2 focus:ring-white focus:border-transparent transition-colors"
+                  className="w-full px-4 py-3 border border-ink-700 bg-ink-950 text-parchment-100 rounded-lg focus:ring-2 focus:ring-ochre-400 focus:border-transparent transition-colors"
                   placeholder="John Doe"
                 />
               </div>
@@ -154,7 +155,7 @@ export default function Contact() {
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-sm font-medium text-gray-300 mb-2"
+                  className="block text-sm font-medium text-parchment-300 mb-2"
                 >
                   Your Email
                 </label>
@@ -165,7 +166,7 @@ export default function Contact() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-700 bg-black text-white rounded-lg focus:ring-2 focus:ring-white focus:border-transparent transition-colors"
+                  className="w-full px-4 py-3 border border-ink-700 bg-ink-950 text-parchment-100 rounded-lg focus:ring-2 focus:ring-ochre-400 focus:border-transparent transition-colors"
                   placeholder="john@example.com"
                 />
               </div>
@@ -173,7 +174,7 @@ export default function Contact() {
               <div>
                 <label
                   htmlFor="service"
-                  className="block text-sm font-medium text-gray-300 mb-2"
+                  className="block text-sm font-medium text-parchment-300 mb-2"
                 >
                   Service Interested In
                 </label>
@@ -183,18 +184,14 @@ export default function Contact() {
                   value={formData.service}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-700 bg-black text-white rounded-lg focus:ring-2 focus:ring-white focus:border-transparent transition-colors"
+                  className="w-full px-4 py-3 border border-ink-700 bg-ink-950 text-parchment-100 rounded-lg focus:ring-2 focus:ring-ochre-400 focus:border-transparent transition-colors"
                 >
                   <option value="">Select a service</option>
-                  <option value="web-development">Web Development</option>
-                  <option value="data-analysis">Data Analysis</option>
-                  <option value="machine-learning">Machine Learning</option>
-                  <option value="ai-development">AI Development</option>
-                  <option value="wordpress-development">WordPress Development</option>
-                  <option value="digital-media">Digital Media & Social Media</option>
-                  <option value="content-creation">Content Creation</option>
-                  <option value="live-streaming">Live Streaming & Videography</option>
-                  <option value="mobile-development">Android & iOS Apps</option>
+                  {services.map((service) => (
+                    <option key={service.id} value={service.id}>
+                      {service.title}
+                    </option>
+                  ))}
                   <option value="other">Other</option>
                 </select>
               </div>
@@ -202,7 +199,7 @@ export default function Contact() {
               <div>
                 <label
                   htmlFor="message"
-                  className="block text-sm font-medium text-gray-300 mb-2"
+                  className="block text-sm font-medium text-parchment-300 mb-2"
                 >
                   Your Message
                 </label>
@@ -213,7 +210,7 @@ export default function Contact() {
                   onChange={handleChange}
                   required
                   rows={4}
-                  className="w-full px-4 py-3 border border-gray-700 bg-black text-white rounded-lg focus:ring-2 focus:ring-white focus:border-transparent transition-colors resize-none"
+                  className="w-full px-4 py-3 border border-ink-700 bg-ink-950 text-parchment-100 rounded-lg focus:ring-2 focus:ring-ochre-400 focus:border-transparent transition-colors resize-none"
                   placeholder="Tell us about your project..."
                 />
               </div>
@@ -221,11 +218,11 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={status === 'submitting'}
-                className="w-full px-6 py-3 bg-white text-black rounded-lg hover:bg-gray-200 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-6 py-3 bg-ochre-400 text-ink-950 rounded-lg hover:bg-ochre-300 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {status === 'submitting' ? (
                   <span className="flex items-center justify-center">
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-black" fill="none" viewBox="0 0 24 24">
+                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-ink-950" fill="none" viewBox="0 0 24 24">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                     </svg>

@@ -4,21 +4,21 @@ import { education, certifications } from '@/data';
 
 export default function Education() {
   return (
-    <section id="education" className="py-20 bg-black">
+    <section id="education" className="py-20 bg-ink-950">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-white mb-4">
+          <h2 className="text-4xl font-bold text-parchment-100 mb-4">
             Education & Certifications
           </h2>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+          <p className="text-xl text-parchment-500 max-w-3xl mx-auto">
             Continuous learning and professional development across multiple platforms and institutions.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div>
-            <h3 className="text-2xl font-bold text-white mb-8 flex items-center">
-              <svg className="w-8 h-8 mr-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <h3 className="text-2xl font-bold text-parchment-100 mb-8 flex items-center">
+              <svg className="w-8 h-8 mr-3 text-parchment-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
               </svg>
@@ -28,14 +28,14 @@ export default function Education() {
               {education.map((edu) => (
                 <div
                   key={edu.id}
-                  className="bg-gray-900 rounded-xl p-6 hover:shadow-lg transition-shadow border border-gray-800"
+                  className="bg-ink-900 rounded-xl p-6 hover:shadow-lg transition-shadow border border-ink-700"
                 >
                   <div className="flex items-start justify-between mb-4">
                     <div>
-                      <h4 className="text-lg font-bold text-white">
+                      <h4 className="text-lg font-bold text-parchment-100">
                         {edu.institution}
                       </h4>
-                      <p className="text-gray-400 font-medium">
+                      <p className="text-parchment-500 font-medium">
                         {edu.degree}
                       </p>
                     </div>
@@ -43,18 +43,18 @@ export default function Education() {
                       <span
                         className={`px-3 py-1 rounded-full text-xs font-medium ${
                           edu.status === 'completed'
-                            ? 'bg-white text-black'
-                            : 'bg-gray-700 text-white'
+                            ? 'bg-ochre-400 text-ink-950'
+                            : 'bg-ink-700 text-parchment-100'
                         }`}
                       >
                         {edu.status === 'completed' ? 'Completed' : 'Ongoing'}
                       </span>
-                      <p className="text-sm text-gray-500 mt-1">
+                      <p className="text-sm text-parchment-500 mt-1">
                         {edu.period}
                       </p>
                     </div>
                   </div>
-                  <p className="text-gray-400 text-sm mb-4">
+                  <p className="text-parchment-500 text-sm mb-4">
                     {edu.description}
                   </p>
                   {edu.skills && (
@@ -62,7 +62,7 @@ export default function Education() {
                       {edu.skills.map((skill) => (
                         <span
                           key={skill}
-                          className="px-2 py-1 bg-black text-gray-300 rounded text-xs border border-gray-800"
+                          className="px-2 py-1 bg-ink-950 text-parchment-300 rounded text-xs border border-ink-700"
                         >
                           {skill}
                         </span>
@@ -75,8 +75,8 @@ export default function Education() {
           </div>
 
           <div>
-            <h3 className="text-2xl font-bold text-white mb-8 flex items-center">
-              <svg className="w-8 h-8 mr-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <h3 className="text-2xl font-bold text-parchment-100 mb-8 flex items-center">
+              <svg className="w-8 h-8 mr-3 text-parchment-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
               </svg>
               Certifications & Badges
@@ -85,26 +85,26 @@ export default function Education() {
               {certifications.map((cert) => (
                 <div
                   key={cert.id}
-                  className="bg-gray-900 rounded-xl p-6 hover:shadow-lg transition-shadow border border-gray-800"
+                  className="bg-ink-900 rounded-xl p-6 hover:shadow-lg transition-shadow border border-ink-700"
                 >
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center space-x-3">
-                      <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center">
-                        <span className="text-black font-bold text-sm">
+                      <div className="w-12 h-12 bg-ochre-500/20 rounded-lg flex items-center justify-center">
+                        <span className="text-ochre-400 font-bold text-sm">
                           {cert.platform.charAt(0)}
                         </span>
                       </div>
                       <div>
-                        <h4 className="font-bold text-white">
+                        <h4 className="font-bold text-parchment-100">
                           {cert.platform}
                         </h4>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm text-parchment-500">
                           {cert.title}
                         </p>
                       </div>
                     </div>
                     {cert.badges > 0 && (
-                      <span className="px-3 py-1 bg-white text-black rounded-full text-sm font-medium">
+                      <span className="px-3 py-1 bg-ochre-400 text-ink-950 rounded-full text-sm font-medium">
                         {cert.badges} badge{cert.badges > 1 ? 's' : ''}
                       </span>
                     )}
@@ -112,9 +112,9 @@ export default function Education() {
 
                   <div className="space-y-2">
                     {cert.highlights.map((highlight, idx) => (
-                      <div key={idx} className="flex items-center text-sm text-gray-400">
+                      <div key={idx} className="flex items-center text-sm text-parchment-500">
                         <svg
-                          className="w-4 h-4 text-white mr-2 flex-shrink-0"
+                          className="w-4 h-4 text-parchment-100 mr-2 flex-shrink-0"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -132,7 +132,7 @@ export default function Education() {
                   </div>
 
                   {cert.expiry && (
-                    <p className="text-xs text-gray-500 mt-3 pt-3 border-t border-gray-800">
+                    <p className="text-xs text-parchment-500 mt-3 pt-3 border-t border-ink-700">
                       Expires: {cert.expiry}
                     </p>
                   )}
@@ -142,7 +142,7 @@ export default function Education() {
                       href={cert.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center mt-3 text-sm text-white hover:text-gray-300 font-medium"
+                      className="inline-flex items-center mt-3 text-sm text-parchment-100 hover:text-parchment-300 font-medium"
                     >
                       View Profile
                       <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

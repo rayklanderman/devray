@@ -2,11 +2,16 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
+import { usePathname } from 'next/navigation';
 import { navItems } from '@/data';
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>('');
+  const pathname = usePathname();
+  const reduce = useReducedMotion();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,37 +19,76 @@ export default function Header() {
     };
 
     window.addEventListener('scroll', handleScroll);
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (pathname !== '/') return;
+
+    const sectionIds = navItems
+      .map((item) => item.href.split('#')[1])
+      .filter(Boolean);
+
+    const sections = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        }
+      },
+      { rootMargin: '-40% 0px -55% 0px' }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, [pathname]);
+
+  const isActive = (href: string) => {
+    if (href === '/' && pathname === '/') return true;
+    const id = href.split('#')[1];
+    return id ? activeSection === id : pathname === href;
+  };
+
   return (
-    <header
+    <motion.header
+      initial={reduce ? false : { y: -80 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.5, ease: [0.21, 0.47, 0.32, 0.98] }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-black/90 backdrop-blur-md border-b border-gray-800'
+          ? 'bg-ink-950/90 backdrop-blur-md border-b border-ink-700'
           : 'bg-transparent'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <Link href="#home" className="flex items-center space-x-2">
-              <img
-                src="/cropped_circle_image.png"
-                alt="DevRay Logo"
-                className="w-10 h-10 rounded-lg object-cover"
-              />
-              <span className={`text-xl font-bold ${isScrolled ? 'text-white' : 'text-white'}`}>
-                DevRay
-              </span>
-            </Link>
+          <Link href="/" className="flex items-center space-x-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/cropped_circle_image.png"
+              alt="DevRay Logo"
+              className="w-10 h-10 rounded-lg object-cover"
+            />
+            <span className="text-xl font-bold text-parchment-100">
+              DevRay
+            </span>
+          </Link>
 
           <nav className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
               <Link
                 key={item.label}
                 href={item.href}
-                className={`text-sm font-medium transition-colors hover:text-white ${
-                  isScrolled ? 'text-gray-300' : 'text-gray-300'
+                className={`text-sm font-medium transition-colors hover:text-ochre-300 ${
+                  isActive(item.href)
+                    ? 'text-ochre-400'
+                    : 'text-parchment-300'
                 }`}
               >
                 {item.label}
@@ -52,7 +96,7 @@ export default function Header() {
             ))}
             <Link
               href="#contact"
-              className="px-4 py-2 bg-white text-black rounded-lg hover:bg-gray-200 transition-colors text-sm font-medium"
+              className="px-4 py-2 bg-ochre-400 text-ink-950 rounded-lg hover:bg-ochre-300 transition-colors text-sm font-medium"
             >
               Get A Quote
             </Link>
@@ -64,7 +108,7 @@ export default function Header() {
             aria-label="Toggle menu"
           >
             <svg
-              className="w-6 h-6 text-white"
+              className="w-6 h-6 text-parchment-100"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -89,29 +133,41 @@ export default function Header() {
         </div>
       </div>
 
-      {isMobileMenuOpen && (
-        <div className="md:hidden bg-black border-t border-gray-800">
-          <nav className="px-4 py-4 space-y-2">
-            {navItems.map((item) => (
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={reduce ? false : { height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={reduce ? undefined : { height: 0, opacity: 0 }}
+            transition={{ duration: 0.25, ease: [0.21, 0.47, 0.32, 0.98] }}
+            className="md:hidden bg-ink-950 border-t border-ink-700 overflow-hidden"
+          >
+            <nav className="px-4 py-4 space-y-2">
+              {navItems.map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className={`block px-4 py-2 rounded-lg transition-colors ${
+                    isActive(item.href)
+                      ? 'text-ochre-400 bg-ink-900'
+                      : 'text-parchment-300 hover:bg-ink-900 hover:text-ochre-300'
+                  }`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              ))}
               <Link
-                key={item.label}
-                href={item.href}
-                className="block px-4 py-2 text-gray-300 hover:bg-gray-900 rounded-lg"
+                href="#contact"
+                className="block px-4 py-2 bg-ochre-400 text-ink-950 rounded-lg hover:bg-ochre-300 text-center font-medium"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                {item.label}
+                Get A Quote
               </Link>
-            ))}
-            <Link
-              href="#contact"
-              className="block px-4 py-2 bg-white text-black rounded-lg hover:bg-gray-200 text-center font-medium"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Get A Quote
-            </Link>
-          </nav>
-        </div>
-      )}
-    </header>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.header>
   );
 }

@@ -1,4 +1,4 @@
-import { Service, Project, Education, Certification, NavItem, SocialLink } from '../types';
+import { Service, Project, Education, Certification, NavItem, SocialLink, NamedCredential } from '../types';
 
 export const navItems: NavItem[] = [
   { label: 'Home', href: '/' },
@@ -18,10 +18,46 @@ export const socialLinks: SocialLink[] = [
 
 export const services: Service[] = [
   {
+    id: 'ai-development',
+    title: 'AI Development',
+    description: 'Build intelligent systems powered by Large Language Models and generative AI. RAG systems, autonomous agents, and AI automation.',
+    icon: 'sparkles',
+    tier: 'core',
+    proof: { label: 'See it live: AI Health Chat', url: 'https://aihealthchat.qzz.io/' },
+    features: [
+      'LLM-powered application development',
+      'RAG (Retrieval-Augmented Generation) systems',
+      'Autonomous AI agents',
+      'Vector search & embeddings',
+      'AI automation workflows',
+      'Custom AI solutions & consulting',
+    ],
+    technologies: ['OpenAI', 'Anthropic', 'Gemini', 'Groq', 'Ollama', 'Pinecone', 'Weaviate', 'Qdrant', 'LlamaIndex'],
+  },
+  {
+    id: 'machine-learning',
+    title: 'Machine Learning',
+    description: 'End-to-end ML solutions from data preparation to model deployment. Predictive analytics and intelligent automation.',
+    icon: 'brain',
+    tier: 'core',
+    proof: { label: 'See it live: Movie Recommendation Engine', url: 'https://movie-recommender.qzz.io/' },
+    features: [
+      'Custom ML model development',
+      'Predictive analytics & forecasting',
+      'Natural Language Processing (NLP)',
+      'Computer Vision solutions',
+      'Model training & optimization',
+      'MLOps & model deployment',
+    ],
+    technologies: ['Python', 'TensorFlow', 'PyTorch', 'Scikit-learn', 'LangChain', 'LangGraph'],
+  },
+  {
     id: 'web-development',
     title: 'Web Development',
     description: 'Full-stack web applications using modern frameworks and best practices. From responsive landing pages to complex web platforms.',
     icon: 'globe',
+    tier: 'core',
+    proof: { label: 'See it live: TutaLearn', url: 'https://www.tutalearn.study/' },
     features: [
       'Custom web application development',
       'Responsive design & UI/UX implementation',
@@ -37,6 +73,7 @@ export const services: Service[] = [
     title: 'Data Analysis',
     description: 'Transform raw data into actionable insights. Statistical analysis, visualization, and reporting to drive business decisions.',
     icon: 'chart',
+    tier: 'additional',
     features: [
       'Exploratory data analysis',
       'Interactive dashboards & reports',
@@ -48,40 +85,11 @@ export const services: Service[] = [
     technologies: ['Python', 'Pandas', 'Polars', 'SQL', 'Power BI', 'Tableau', 'Streamlit'],
   },
   {
-    id: 'machine-learning',
-    title: 'Machine Learning',
-    description: 'End-to-end ML solutions from data preparation to model deployment. Predictive analytics and intelligent automation.',
-    icon: 'brain',
-    features: [
-      'Custom ML model development',
-      'Predictive analytics & forecasting',
-      'Natural Language Processing (NLP)',
-      'Computer Vision solutions',
-      'Model training & optimization',
-      'MLOps & model deployment',
-    ],
-    technologies: ['Python', 'TensorFlow', 'PyTorch', 'Scikit-learn', 'LangChain', 'LangGraph'],
-  },
-  {
-    id: 'ai-development',
-    title: 'AI Development',
-    description: 'Build intelligent systems powered by Large Language Models and generative AI. RAG systems, autonomous agents, and AI automation.',
-    icon: 'sparkles',
-    features: [
-      'LLM-powered application development',
-      'RAG (Retrieval-Augmented Generation) systems',
-      'Autonomous AI agents',
-      'Vector search & embeddings',
-      'AI automation workflows',
-      'Custom AI solutions & consulting',
-    ],
-    technologies: ['OpenAI', 'Anthropic', 'Gemini', 'Groq', 'Ollama', 'Pinecone', 'Weaviate', 'Qdrant', 'LlamaIndex'],
-  },
-  {
     id: 'content-creation',
     title: 'Content Creation',
     description: 'Technical content that converts. Documentation, tutorials, demos, and creative content that educates and engages.',
     icon: 'pen',
+    tier: 'additional',
     features: [
       'Technical documentation & tutorials',
       'Code examples & walkthroughs',
@@ -96,6 +104,7 @@ export const services: Service[] = [
     title: 'Live Streaming & Videography',
     description: 'Professional live streaming and video production services. From setup to streaming, capture your moments with quality.',
     icon: 'video',
+    tier: 'additional',
     features: [
       'Multi-platform live streaming setup',
       'Professional video production',
@@ -110,6 +119,7 @@ export const services: Service[] = [
     title: 'Android & iOS Apps',
     description: 'Cross-platform mobile applications using Flutter. Native-like performance with a single codebase.',
     icon: 'smartphone',
+    tier: 'additional',
     features: [
       'Cross-platform mobile development',
       'Native & PWA solutions',
@@ -125,6 +135,7 @@ export const services: Service[] = [
     title: 'WordPress Development',
     description: 'Custom WordPress solutions using Divi and Elementor. SEO-optimized websites with fast performance and easy content management.',
     icon: 'wordpress',
+    tier: 'additional',
     features: [
       'Custom theme development',
       'Divi theme customization',
@@ -142,6 +153,7 @@ export const services: Service[] = [
     title: 'Digital Media & Social Media Management',
     description: 'Complete social media management and digital content strategy. Grow your audience and engage with your community.',
     icon: 'social',
+    tier: 'additional',
     features: [
       'Social media strategy development',
       'Content creation & curation',
@@ -158,6 +170,18 @@ export const services: Service[] = [
 
 export const projects: Project[] = [
   {
+    id: 'ai-health-chat',
+    title: 'AI Health Chat',
+    description: 'AI-powered healthcare consultation platform. Symptom checking and health advice using secure AI models.',
+    image: '/projects/ai-health-chat.png',
+    tags: ['Next.js', 'Supabase', 'xAI', 'Grok', 'TypeScript'],
+    liveUrl: 'https://aihealthchat.qzz.io/',
+    githubUrl: 'https://github.com/rayklanderman/ai-health-chat',
+    featured: true,
+    tier: 'signature',
+    award: '🏆 Hackathon Winner',
+  },
+  {
     id: 'tutalearn',
     title: 'TutaLearn - African Educational Platform',
     description: 'AI-powered educational PWA for African students. Features include personalized learning paths, WhatsApp integration, and adaptive assessments.',
@@ -166,6 +190,17 @@ export const projects: Project[] = [
     liveUrl: 'https://www.tutalearn.study/',
     githubUrl: 'https://github.com/rayklanderman/tutalearn',
     featured: true,
+    tier: 'signature',
+  },
+  {
+    id: 'luminae',
+    title: 'Luminae',
+    description: 'AI-driven product intelligence platform that turns raw data into clear recommendations, powered by ML models and natural language insights.',
+    image: '/projects/luminae.png',
+    tags: ['Python', 'Machine Learning', 'LLM', 'TypeScript'],
+    liveUrl: 'https://luminae.qzz.io/',
+    featured: true,
+    tier: 'signature',
   },
   {
     id: 'codebase-genius',
@@ -176,6 +211,7 @@ export const projects: Project[] = [
     liveUrl: 'https://geniuscodebase.streamlit.app/',
     githubUrl: 'https://github.com/rayklanderman/codebase-genius',
     featured: true,
+    tier: 'secondary',
   },
   {
     id: 'weatherwise',
@@ -186,16 +222,7 @@ export const projects: Project[] = [
     liveUrl: 'https://www.weatherwise.earth/',
     githubUrl: 'https://github.com/rayklanderman/weatherwise',
     featured: true,
-  },
-  {
-    id: 'ai-health-chat',
-    title: 'AI Health Chat',
-    description: 'AI-powered healthcare consultation platform. Symptom checking and health advice using secure AI models.',
-    image: '/projects/ai-health-chat.png',
-    tags: ['Next.js', 'Supabase', 'xAI', 'Grok', 'TypeScript'],
-    liveUrl: 'https://aihealthchat.qzz.io/',
-    githubUrl: 'https://github.com/rayklanderman/ai-health-chat',
-    featured: true,
+    tier: 'secondary',
   },
   {
     id: 'serenity-ai',
@@ -205,6 +232,7 @@ export const projects: Project[] = [
     tags: ['React', 'TypeScript', 'JacLang', 'Groq API', 'LLM Architecture', 'AI Agents'],
     liveUrl: 'https://serenityai.qzz.io/',
     featured: true,
+    tier: 'secondary',
   },
   {
     id: 'weru-digital',
@@ -214,6 +242,28 @@ export const projects: Project[] = [
     tags: ['WordPress', 'PWA', 'Live Streaming', 'AI', 'SEO', 'RSS', 'Cross-platform'],
     liveUrl: 'https://werudigital.co.ke',
     featured: true,
+    tier: 'secondary',
+  },
+  {
+    id: 'kazi-connect',
+    title: 'Kazi Connect',
+    description: 'A talent-to-opportunity platform connecting skilled professionals with work. Streamlined profiles, smart matching, and secure collaboration tools.',
+    image: '/projects/kazi-connect.png',
+    tags: ['Next.js', 'TypeScript', 'PostgreSQL', 'AI Matching'],
+    liveUrl: 'https://kaziconnect.qzz.io/',
+    featured: false,
+    tier: 'secondary',
+  },
+  {
+    id: 'movie-recommender',
+    title: 'Movie Recommendation Engine',
+    description: 'Content-based and collaborative-filtering recommendation system that learns viewer taste and surfaces personalized movie picks.',
+    image: '/projects/movie-recommender.png',
+    tags: ['Python', 'Scikit-learn', 'Pandas', 'Streamlit'],
+    liveUrl: 'https://movie-recommender.qzz.io/',
+    githubUrl: 'https://github.com/rayklanderman/movie-recommender',
+    featured: false,
+    tier: 'secondary',
   },
 ];
 
@@ -363,6 +413,10 @@ export const professionalProfile = {
   title: 'Software Engineer',
   subtitle: 'Data Analyst | AI - ML | Creative',
   tagline: 'Dev Ray',
+  founderLink: {
+    label: 'Engineered by Raymond Klanderman — View Full Engineering Profile →',
+    url: 'https://rayklanderman.is-a.dev/',
+  },
   bio: 'I build smart, scalable software and AI systems that solve real-world problems. My work spans full-stack engineering, machine learning, data analytics, cloud architecture, and automated deployment pipelines.',
   extendedBio: 'I design and ship production-ready applications using Python (FastAPI, Streamlit, Pandas, Polars), TypeScript/React/Next.js, Flutter, SQL/NoSQL, and Google Cloud. I specialize in intelligent workflows powered by APIs, autonomous agents, vector search, and Retrieval-Augmented Generation (RAG). My tooling includes Pinecone, Weaviate, Qdrant, LangChain, LlamaIndex, LangGraph, and modern LLM providers like OpenAI, Anthropic, Gemini, Groq, and Ollama. Beyond engineering, I turn data into insights and insights into features that become products people rely on. I also create clear technical content—tutorials, docs, and demos—that helps teams adopt and extend complex systems with confidence. My mission is simple: build tools that understand people, and empower people to build even better tools. Curiosity drives my work, from rapid ML prototyping to productionizing agents and automating end-to-end workflows. Always open to collaborating with teams building the next generation of human-centered AI.',
   keyTechnologies: [
@@ -373,3 +427,26 @@ export const professionalProfile = {
     'OpenAI', 'Anthropic', 'Gemini', 'Groq', 'Ollama',
   ],
 };
+
+export const namedCredentials: NamedCredential[] = [
+  {
+    title: 'Oracle OCI 2025 Certified AI Foundations Associate',
+    issuer: 'Oracle',
+    url: 'https://catalog-education.oracle.com/pls/certview/badgehandle?code=NPROD-PMV-OCI-AI-2025',
+  },
+  {
+    title: 'MLOps for Generative AI',
+    issuer: 'Google Cloud',
+    url: 'https://www.cloudskillsboost.google/public_profiles/raymond-klanderman',
+  },
+  {
+    title: 'Vector Search and Embeddings',
+    issuer: 'Google Cloud',
+    url: 'https://www.cloudskillsboost.google/public_profiles/raymond-klanderman',
+  },
+  {
+    title: 'AWS Educate Machine Learning Foundations',
+    issuer: 'AWS',
+    url: 'https://www.credly.com/users/raymond-klanderman',
+  },
+];
