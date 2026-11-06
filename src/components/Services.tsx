@@ -109,8 +109,37 @@ export default function Services() {
                 {service.description}
               </p>
 
+              {service.tagline && (
+                <p className="text-sm text-parchment-500 italic mb-6">{service.tagline}</p>
+              )}
+
+              {service.for && (
+                <div className="mb-3">
+                  <p className="text-xs font-medium text-parchment-500 uppercase tracking-wider">For</p>
+                  <p className="text-parchment-300 text-sm">{service.for}</p>
+                </div>
+              )}
+              {service.problem && (
+                <div className="mb-3">
+                  <p className="text-xs font-medium text-parchment-500 uppercase tracking-wider">Problem we solve</p>
+                  <p className="text-parchment-300 text-sm">{service.problem}</p>
+                </div>
+              )}
+              {service.delivered && (
+                <div className="mb-3">
+                  <p className="text-xs font-medium text-parchment-500 uppercase tracking-wider">Delivered</p>
+                  <p className="text-parchment-300 text-sm">{service.delivered}</p>
+                </div>
+              )}
+              {service.howToBegin && (
+                <div className="mb-3">
+                  <p className="text-xs font-medium text-parchment-500 uppercase tracking-wider">How to begin</p>
+                  <p className="text-parchment-300 text-sm">{service.howToBegin}</p>
+                </div>
+              )}
+
               <ul className="space-y-3">
-                {service.features.slice(0, 3).map((feature, idx) => (
+                {service.features?.slice(0, 3).map((feature, idx) => (
                   <li key={idx} className="flex items-start">
                     <svg
                       className="w-5 h-5 text-ochre-400 mr-3 mt-0.5 flex-shrink-0"
@@ -134,13 +163,20 @@ export default function Services() {
                 <ProofLink label={service.proof.label} url={service.proof.url} />
               )}
 
-              {service.technologies && (
+              {service.evidence && (
+                <div className="mb-3">
+                  <p className="text-xs font-medium text-parchment-500 uppercase tracking-wider">Evidence</p>
+                  <p className="text-parchment-300 text-sm">{service.evidence}</p>
+                </div>
+              )}
+
+              {service.tech && (
                 <div className="mt-6 pt-6 border-t border-ink-700">
                   <p className="text-xs font-medium text-parchment-500 mb-3 uppercase tracking-wider">
-                    Technologies
+                    Technology
                   </p>
                   <div className="flex flex-wrap gap-2">
-                    {service.technologies.map((tech) => (
+                    {service.tech.map((tech) => (
                       <span
                         key={tech}
                         className="px-2 py-1 bg-ink-900 text-parchment-300 rounded text-xs font-medium border border-ink-700"
@@ -183,7 +219,7 @@ export default function Services() {
               </p>
 
               <ul className="space-y-2">
-                {service.features.slice(0, 3).map((feature, idx) => (
+                {service.features?.slice(0, 3).map((feature, idx) => (
                   <li key={idx} className="flex items-start">
                     <svg
                       className="w-4 h-4 text-ochre-400 mr-2 mt-0.5 flex-shrink-0"
@@ -209,3 +245,4 @@ export default function Services() {
     </section>
   );
 }
+

@@ -17,8 +17,8 @@ function SignatureCard({ project }: { project: (typeof projects)[number] }) {
     >
       <div className="relative h-48 w-full overflow-hidden">
         <Image
-          src={project.image}
-          alt={project.title}
+          src={project.screenshot}
+          alt={project.screenshotAlt || project.title}
           fill
           className="object-cover group-hover:scale-105 transition-transform duration-500"
           sizes="(max-width:768px) 100vw, 33vw"
@@ -42,11 +42,11 @@ function SignatureCard({ project }: { project: (typeof projects)[number] }) {
         </h3>
 
         <p className="text-parchment-500 text-sm mb-4">
-          {project.description}
+          {project.description || project.solution}
         </p>
 
         <div className="flex flex-wrap gap-2 mb-6">
-          {project.tags.map((tag) => (
+          {project.tech.map((tag) => (
             <span
               key={tag}
               className="px-2 py-1 bg-ink-800 text-parchment-300 rounded text-xs font-medium border border-ink-700"
@@ -70,9 +70,9 @@ function SignatureCard({ project }: { project: (typeof projects)[number] }) {
               View Live
             </a>
           )}
-          {project.githubUrl && (
+          {project.repositoryUrl && project.isRepositoryPublic && (
             <a
-              href={project.githubUrl}
+              href={project.repositoryUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="flex-1 flex items-center justify-center gap-2 px-4 py-2 border border-ink-700 text-parchment-100 rounded-lg hover:bg-ink-800 hover:border-ochre-500/40 transition-colors text-sm font-medium"
@@ -97,8 +97,8 @@ function SecondaryCard({ project }: { project: (typeof projects)[number] }) {
     >
       <div className="relative h-40 w-full overflow-hidden">
         <Image
-          src={project.image}
-          alt={project.title}
+          src={project.screenshot}
+          alt={project.screenshotAlt || project.title}
           fill
           className="object-cover group-hover:scale-105 transition-transform duration-500"
           sizes="(max-width:768px) 100vw, 33vw"
@@ -113,11 +113,11 @@ function SecondaryCard({ project }: { project: (typeof projects)[number] }) {
         </div>
 
         <p className="text-parchment-500 text-sm mb-4">
-          {project.description}
+          {project.description || project.solution}
         </p>
 
         <div className="flex flex-wrap gap-2 mb-6">
-          {project.tags.map((tag) => (
+          {project.tech.map((tag) => (
             <span
               key={tag}
               className="px-2 py-1 bg-ink-800 text-parchment-300 rounded text-xs font-medium border border-ink-700"
@@ -138,9 +138,9 @@ function SecondaryCard({ project }: { project: (typeof projects)[number] }) {
               View Live
             </a>
           )}
-          {project.githubUrl && (
+          {project.repositoryUrl && project.isRepositoryPublic && (
             <a
-              href={project.githubUrl}
+              href={project.repositoryUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="flex-1 flex items-center justify-center gap-2 px-4 py-2 border border-ink-700 text-parchment-100 rounded-lg hover:bg-ink-800 hover:border-ochre-500/40 transition-colors text-sm font-medium"
@@ -185,3 +185,6 @@ export default function Projects() {
     </section>
   );
 }
+
+
+
