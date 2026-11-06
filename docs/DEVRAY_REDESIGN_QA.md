@@ -1,106 +1,121 @@
 # DevRay Lab — Redesign QA Report
 
-**Branch:** `feat/master-prompt-implementation`
-**Commands run:** `npm run build` (typecheck + production build), `npm run lint` (see below)
-**Status:** Build green; lint pending
+**Date:** 6 November 2026
+**Commands run from:** `D:\STUDENT\devray`
+**Status:** Typecheck, lint, production build and HTTP/API smoke tests pass. Visual, Lighthouse, screen-reader and live-provider checks are listed as not tested.
 
-## 1. Build & typecheck
+## 1. Static checks
 
 | Check | Command | Result | Notes |
 |---|---|---|---|
-| TypeScript typecheck | `npm run build` (includes `tsc`) | PASS | Zero type errors |
-| Production build | `npm run build` | PASS | Static `/` + `/work`; dynamic `/chat`, `/api/chat`, `/work/[slug]` |
-| Lint | `npm run lint` | PENDING | Log written to `lint.log` |
+| TypeScript | `npx tsc --noEmit` | **PASS** | Zero errors |
+| ESLint | `npx eslint <all src ts/tsx files>` | **PASS** | Zero errors, zero warnings |
+| Production build | `npm run build` | **PASS** | Compiled in ~23s; 26 static pages generated |
 
-Build output confirms routes: `/` (static), `/work` (static), `/work/[slug]` (dynamic), `/chat` (dynamic SSR), `/api/chat` (dynamic).
+### Build output
 
-## 2. Routing & navigation
+- Static: `/`, `/_not-found`, `/privacy`, `/robots.txt`, `/sitemap.xml`, `/icon.png`, `/apple-icon.png`
+- Dynamic: `/chat`, `/api/chat`, `/api/contact`
+- SSG: `/work/[slug]` with all 15 case-study paths prerendered via `generateStaticParams`
+- `/work` is static
 
-- Nav anchors: Home, Services, About, Work (`/work`), AI Chat (`/chat`), Contact
-- Active-section highlight via IntersectionObserver on section ids (Header)
-- Mobile menu with `AnimatePresence`; `Get A Quote` CTA in both desktop and mobile
-- Footer Services column lists core services first; Founder column links `rayklanderman.is-a.dev`
-- Work index at `/work`; per-project case studies at `/work/[slug]`
-- External links use `target="_blank" rel="noopener noreferrer"` (open-in-new-tab safety)
+## 2. Route and content checks (production server)
 
-## 3. CTA & contact form
+Started with `npx next start -p 3100` after the build.
 
-- Contact form posts to Formspree endpoint `https://formspree.io/f/mqeebboy`
-- Fields: name, email, service (core-first select), message; client-side `required`
-- Submission states: idle / submitting / success / error; no fake confirmation — success only set when Formspree responds OK
-- Error surface: network failure or non-ok response shows error state and suggests `info@devray.site` mailto
-- Form privacy statement to be added near submit (see open items)
+| Route / check | Expected | Result |
+|---|---|---|
+| `/` | 200 with hero, audience strip, four core services, selected work, why, process, about, FAQ, contact | **PASS** |
+| `/work` | 200 with all 15 case files, signature and additional sections | **PASS** |
+| `/work/ai-health-chat` | 200 with architecture, evidence, limitations, CTA | **PASS** |
+| `/work/eyesense` | 200 with public source link | **PASS** |
+| `/work/does-not-exist` | 404 | **PASS** |
+| `/privacy` | 200 with Formspree, AI chat and retention sections | **PASS** |
+| `/chat` | 200 | **PASS** |
+| `/sitemap.xml` | 200, canonical host, 19 URLs | **PASS** |
+| `/robots.txt` | 200, canonical sitemap URL, `/api/` disallowed | **PASS** |
+| All 19 sitemap URLs | 200 | **PASS** |
+| 27 unique internal links extracted from rendered pages | 200 | **PASS** |
+| Project, OG and icon assets | 200 | **PASS** |
+| `X-Powered-By` header | Absent | **PASS** |
+| Homepage contains no "Get A Quote" CTA | Absent | **PASS** |
 
-## 4. Responsive checks (to be executed)
+## 3. Contact API checks
 
-Breakpoints to verify: 320px, 375px, 768px, 1024px, 1440px
-- No horizontal overflow
-- No unreadable text or obscured controls
-- Cards and grids stack correctly on mobile
-- 3D hero canvas fixed-height `h-[500px]` container; static fallback when WebGL disabled
+No valid inquiry was submitted to Formspree, to avoid sending a live message.
 
-## 5. Reduced motion
+| Case | Expected | Result |
+|---|---|---|
+| Invalid fields (empty name, bad email, short message, no consent) | 422 with field errors | **PASS** |
+| Honeypot field populated | 400 | **PASS** |
+| Cross-origin request | 403 | **PASS** |
+| Missing `GROQ_API_KEY` on `/api/chat` | 503 with safe message | **PASS** |
+| Chat error body leaks key/token material | No | **PASS** |
+| Client-supplied `system` message | 400 (prompt is server-side only) | **PASS** |
+| Oversized chat message | 400 | **PASS** |
+| Empty chat conversation | 400 | **PASS** |
+| Formspree/Groq secrets in client static bundle | None found | **PASS** |
 
-- `prefers-reduced-motion: reduce` honoured in `globals.css` (animation/transition durations to 0.01ms)
-- `Reveal`, `TiltCard`, `MagneticButton`, Header mobile menu, hero medallions all gate on `useReducedMotion`
-- `HeroScene` gated off for `prefers-reduced-motion` and `navigator.hardwareConcurrency <= 4`; `StaticHeroCard` fallback renders
+## 4. External link verification
 
-## 6. Low-end / performance (to be executed)
+Checked by HTTP fetch where the network permitted:
 
-- Throttle CPU 4× in DevTools; scrolling smooth; tilt and canvas are the main suspects
-- 3D scene is a separate async chunk (~890 KB), absent from first-load JS and prerendered HTML
-- `dpr` capped at 1.75; single canvas, no shadows/postprocessing
-- LCP element should be the headline text, not the canvas
+- **200:** AI Health Chat, TutaLearn, Luminae, Sauti Mtaani, PostShifterPro, Live Interviewer, SerenityAI, Kazi Connect, Codebase Genius, Weru Digital.
+- **200:** GitHub repositories for EyeSense, Luminae, Movie Recommendation Project, AutoResearcher and Codebase Genius.
+- **200:** Google Cloud Professional Cloud Architect badge, Oracle AI Foundations badge, KCNA badge, BCS Generative AI certificate, Google Skills profile, Microsoft Learn profile.
+- **200:** Founder technical portfolio (`https://rayklanderman.is-a.dev/`).
+- **Removed:** WeatherWise live URL (domain expired and listed for sale on 2026-11-06); `credly.com/users/raymond-klanderman` profile URL returned 404 and was removed.
 
-## 7. Accessibility (to be executed)
+Full details: `docs/DEVRAY_CONTENT_VERIFICATION.md`.
 
-- Keyboard: proof links and founder link reachable by Tab with visible ochre focus rings (`focus:ring-ochre-400` on Contact selects/inputs)
-- Award seal has `aria-label`
-- Social links have `aria-label`
-- Form inputs have labels; select has `required`
-- Alt text on project screenshots via `screenshotAlt`; logo images use descriptive alt
-- Headings in logical hierarchy (h1 → h2 → h3)
-
-## 8. SEO & metadata
-
-- `metadataBase: https://devray.qzz.io` set in `layout.tsx`
-- `openGraph.images` (`/og-image.png`, 1200×630), `openGraph.url`, Twitter card fields
-- Organization JSON-LD with founder `Raymond Klanderman` + `sameAs` GitHub/LinkedIn
-- Project screenshots served via `next/image` with meaningful `alt`
-- `public/sitemap.xml` lastmod dates NOT yet refreshed (open item)
-- `public/robots.txt` references `https://devray.site/sitemap.xml` (note: host is `devray.site`, metadataBase is `devray.qzz.io` — align after launch)
-
-## 9. Security / privacy
-
-- No private project source code, API keys, or secrets in frontend output
-- `GROQ_API_KEY` read only server-side in `/api/chat` route; never exposed to client
-- `repositoryUrl` Source button rendered only when `isRepositoryPublic === true`
-- AI Health Chat: no clinical diagnosis claims; medical disclaimer noted
-- SerenityAI: not clinical therapy; privacy/retention warning noted
-
-## 10. Known failures / not-tested
-
-- Lighthouse mobile ≥85 / LCP ≤2.5s / CLS <0.1: NOT TESTED
-- Reduced-motion static-card render: NOT TESTED
-- Low-end CPU 4× scroll test: NOT TESTED
-- Keyboard/a11y Tab pass: NOT TESTED
-- Cross-check every proof link and `liveUrl` resolves: PARTIAL (see `docs/DEVRAY_CONTENT_VERIFICATION.md`)
-- `public/sitemap.xml` lastmod refresh: NOT DONE
-- Real screenshot / OG image replacement: NOT DONE
-- `GROQ_API_KEY` on Vercel: NOT CONFIRMED
-
-## 11. Pass/fail summary
+## 5. Accessibility review (code-level)
 
 | Item | Status |
 |---|---|
-| `npm run build` (typecheck + build) | PASS |
-| `npm run lint` | PENDING |
-| Routes `/`, `/work`, `/work/[slug]`, `/chat`, `/api/chat` | PASS (build) |
-| External open-in-new-tab `rel="noopener noreferrer"` | PASS (code review) |
-| Reduced-motion gating | PASS (code review) |
-| No secrets leaked to frontend | PASS (code review) |
-| Lighthouse / a11y / low-end / link audits | NOT TESTED |
-| Sitemap lastmod refresh | NOT DONE |
-| Real screenshots / OG image | NOT DONE |
+| Skip-to-content link | Present |
+| Focus-visible outline | Present globally |
+| Semantic headings and section `aria-labelledby` | Present |
+| Mobile menu keyboard/Escape/`aria-expanded`/`aria-controls` | Present |
+| Form labels, `aria-required`, `aria-invalid`, inline error IDs | Present |
+| `aria-live` form status and chat log | Present |
+| `aria-current` navigation | Present |
+| Alt text for project/brand images | Present |
+| Reduced-motion handling | Present in CSS and motion primitives; 3D hero gated |
+| Screen-reader walkthrough | **NOT TESTED** |
+| Automated axe/Lighthouse accessibility run | **NOT TESTED** |
 
-**Overall:** Build green. Phase 7 QA checklist partially complete; remaining items listed above must be executed before production promotion.
+## 6. Responsive and visual checks
+
+| Item | Status |
+|---|---|
+| Responsive classes for 320/375/768/1024/1440 layouts | Implemented |
+| Horizontal-overflow check in a real browser | **NOT TESTED** |
+| Visual review at each breakpoint | **NOT TESTED** |
+| Reduced-motion static fallback rendered in a browser | **NOT TESTED** |
+| Lighthouse performance / LCP / CLS | **NOT TESTED** |
+
+## 7. Not tested / blocked
+
+1. **Live Formspree delivery** — a real submission would send an actual inquiry. The endpoint, validation and failure handling are implemented; delivery should be tested with a safe test form before launch.
+2. **Live Groq response** — `GROQ_API_KEY` is not present locally. The missing-key path and input validation are tested.
+3. **Visual/Lighthouse/screen-reader QA** — not available in this environment.
+4. **Real project screenshots** — all 15 visuals are branded placeholders explicitly marked as pending.
+5. **Email deliverability** — `info@devray.site` was not sent a test message.
+6. **Full social-profile sweep** — LinkedIn and some profile destinations were not fetched due to bot/redirect behaviour; exact URLs are used.
+
+## 8. Summary
+
+| Item | Result |
+|---|---|
+| Typecheck | PASS |
+| Lint | PASS |
+| Production build | PASS |
+| Case-study routes | PASS (previously 404) |
+| Sitemap and robots | PASS |
+| Internal links and assets | PASS |
+| Contact API validation and abuse checks | PASS |
+| Missing-key chat behaviour | PASS |
+| Live provider delivery | NOT TESTED |
+| Visual/Lighthouse/a11y audits | NOT TESTED |
+
+**Overall:** The site builds cleanly and the implemented routes, APIs, internal links, sitemap, robots and content markers pass automated checks. Remaining items are visual/provider verification and real screenshot replacement.

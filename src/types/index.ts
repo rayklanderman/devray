@@ -14,6 +14,7 @@ export interface Service {
   tech?: string[];       // Sparse, evidence-based tags only
   tier: 'core' | 'additional';
   proof?: { label: string; url: string };
+  relatedProjects?: string[]; // project slugs for contextual case-study links
 }
 
 export interface Project {
@@ -27,12 +28,14 @@ export interface Project {
   problem?: string;
   audience?: string;
   solution?: string;
+  architecture?: string;
   technicalHighlights?: string[];
   responsibilities?: string[];
   constraintsAndTradeoffs?: string;
   privacyAccessibility?: string;
   verifiedEvidence?: string;
   limitations?: string;
+  clientRelevance?: string;
   description?: string;
   tech: string[];
   screenshot: string;
@@ -92,4 +95,27 @@ export interface NamedCredential {
   title: string;
   issuer: string;
   url: string;
+}
+
+export interface PainPoint {
+  title: string;
+  description: string;
+  serviceId?: string;
+}
+
+export interface Differentiator {
+  title: string;
+  description: string;
+}
+
+export interface ProcessStep {
+  step: string;
+  title: string;
+  description: string;
+  deliverables: string;
+}
+
+export interface Faq {
+  question: string;
+  answer: string;
 }

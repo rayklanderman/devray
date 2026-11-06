@@ -7,10 +7,15 @@ export function Reveal({ children, delay = 0, className }: {
   children: ReactNode; delay?: number; className?: string;
 }) {
   const reduce = useReducedMotion();
+
+  if (reduce) {
+    return <div className={className}>{children}</div>;
+  }
+
   return (
     <motion.div
       className={className}
-      initial={reduce ? false : { opacity: 0, y: 32 }}
+      initial={{ opacity: 0, y: 32 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-80px' }}
       transition={{ duration: 0.6, delay, ease: [0.21, 0.47, 0.32, 0.98] }}
@@ -21,6 +26,12 @@ export function Reveal({ children, delay = 0, className }: {
 }
 
 export function StaggerGrid({ children, className }: { children: ReactNode; className?: string }) {
+  const reduce = useReducedMotion();
+
+  if (reduce) {
+    return <div className={className}>{children}</div>;
+  }
+
   return (
     <motion.div
       className={className}

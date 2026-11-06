@@ -1,74 +1,100 @@
 # DevRay Lab — Final Implementation Summary
 
-**Branch:** `feat/master-prompt-implementation`
-**Base:** `cd34eaf` (forest-ink & gold-ochre redesign, deployed at `https://devray.qzz.io`)
+**Date:** 6 November 2026
 **Spec:** `DevRay_Lab_Complete_Redesign_Copilot_Master_Prompt.md` (Phases 0–12)
+**Status:** Implementation complete; build and automated route/API checks pass. Visual/provider checks remain as listed.
 
-## What was implemented
+## 1. Outcome
 
-This branch completes the remaining content-accuracy, route, SEO, documentation, and QA-deliverable work left after the Phase 0–7 redesign was deployed.
+The site now presents DevRay as a founder-led software and applied-AI engineering practice rather than a generic services template. A visitor can understand the four core offers, see verified work, understand the process, read candid limitations and start a validated project inquiry.
 
-### 1. Data model & verified content (`src/types/index.ts`, `src/data/index.ts`)
-- Rewrote `services` as buyable-outcome offerings: two core services (AI Applications & Intelligent Automation; Web Platforms & Custom Software) plus additional capabilities (Mobile Applications, Data Analytics & Applied ML, Livestreaming & Videography, Technical Content & Documentation, WordPress Development, Digital Media & Social Media Management). Each carries For / Problem / Delivered / How to begin / Evidence copy and sparse, evidence-based tech tags.
-- Rewrote `projects` as a verified catalogue of 9 signature + secondary projects (AI Health Chat, TutaLearn, Luminae, Codebase Genius, WeatherWise, SerenityAI, Weru Digital, Kazi Connect, Movie Recommendation Engine, AutoResearcher). Each includes problem/solution/audience, technical highlights, responsibilities, constraints & trade-offs, privacy & accessibility, verified evidence, limitations, tech stack, and updatedAt. `repositoryUrl` Source links are rendered only for publicly accessible repos.
-- Removed fabricated client results, employment arrangements, certifications, and unverified claims. AI Health Chat is labelled educational triage only (not clinical); SerenityAI is not clinical therapy.
-- Added `institutionalExperience` (Pan-African Parliament, described as experience only, no endorsement implied) and updated `professionalProfile` to founder-led "Software and AI Engineer".
-- Extended types with `slug`, `screenshot`/`screenshotAlt`, `caseStudyUrl`, `repositoryUrl`, `isRepositoryPublic`, `updatedAt`, and optional `features`/`tech`/`description`; kept legacy aliases during transition.
+## 2. Major changes
 
-### 2. Components
-- `src/components/Services.tsx`: buyable-outcome card copy (For / Problem / Delivered / How to begin / Evidence), optional tech chip list, optional features; `technologies` → `tech`.
-- `src/components/Projects.tsx`: `screenshot`/`screenshotAlt`, `tech` chips, `repositoryUrl` rendered only when `isRepositoryPublic` (labelled "Source"); no Source button for private/unverified repos.
+### Runtime and correctness fixes
+- Fixed the Next.js 16 async `params` bug that made every `/work/[slug]` page return 404.
+- Fixed the missing AutoResearcher screenshot reference.
+- Fixed hero service icons by introducing a shared `ServiceIcon` component.
+- Added Header/Footer to `/work` and case-study pages.
+- Removed the expired WeatherWise live URL.
+- Replaced the broken generic Credly profile URL.
+- Removed the old `devray.site` sitemap/robots files and generated canonical versions.
 
-### 3. New routes
-- `src/app/work/page.tsx` — Work index listing signature projects and additional work.
-- `src/app/work/[slug]/page.tsx` — Per-project case study with problem, solution, audience, technical highlights, responsibilities, constraints & trade-offs, privacy & accessibility, verified evidence, limitations, tech, and Live / Source / Discuss This Project CTAs.
+### Homepage architecture
+Added: audience/problem strip; four core services with buyable outcomes and contextual CTAs; six selected case studies; Why DevRay; six-stage process with deliverables; founder section; FAQ; conversion-focused contact.
 
-### 4. SEO / metadata / sitemap
-- `layout.tsx` already carries `metadataBase`, Open Graph image, Twitter card, and Organization JSON-LD (no changes needed).
-- `public/sitemap.xml` lastmod refresh and `robots.txt` host alignment flagged as open items.
+### Content
+- Canonical catalogue of 15 projects with architecture, evidence, limitations and client relevance.
+- Added Sauti Mtaani Nairobi, EyeSense, PostShifterPro, Live Interviewer and UrbanSpark AI.
+- Updated Kazi Connect to its verified URL and corrected project technologies/roles using the founder's public portfolio.
+- Rewrote the chat prompt to remove inflated claims and added accurate service context.
 
-### 5. Documentation (Phase 12 deliverables)
-- `docs/DEVRAY_REDESIGN_AUDIT.md` — baseline state, changes, open items, known limitations
-- `docs/DEVRAY_REDESIGN_QA.md` — Phase 7 QA checklist (pass/fail/not-tested)
-- `docs/DEVRAY_CONTENT_VERIFICATION.md` — broken/unverified links, project status, screenshot needs, credentials, legal copy gaps
-- `README.md` — configuration, env vars (`GROQ_API_KEY`), contact form behavior, scripts, routes
-- `docs/DEVRAY_REDESIGN_SUMMARY.md` — this file
+### Conversion
+- Inquiry form with name, email, organisation, category, budget range, timeframe, description and consent.
+- Client and server validation, honeypot, origin check, rate limit and server-side Formspree delivery.
+- Real error state with `mailto:info@devray.site` fallback; no fake success.
+- Contextual `service` / `source` identifiers; privacy page added.
 
-## Verified working behavior
+### SEO, accessibility, performance, security
+- Per-page metadata and canonicals; Open Graph/Twitter; `ProfessionalService`, `Person` and `WebSite` structured data.
+- Generated sitemap (19 URLs) and robots.
+- Skip link, focus-visible styling, ARIA labels/status regions, keyboard mobile menu, reduced-motion support.
+- `next/image` usage, lazy 3D scene with static fallback, compressed PWA icons and real favicon.
+- Validated/bounded API inputs; secrets remain server-side.
+
+## 3. Routes
+
+| Route | Type |
+|---|---|
+| `/` | Static |
+| `/work` | Static |
+| `/work/[slug]` | SSG for all 15 projects |
+| `/privacy` | Static |
+| `/chat` | Dynamic |
+| `/api/chat` | Dynamic, requires `GROQ_API_KEY` |
+| `/api/contact` | Dynamic, Formspree delivery |
+| `/sitemap.xml` | Generated |
+| `/robots.txt` | Generated |
+
+## 4. Verification actually run
 
 | Check | Result |
 |---|---|
-| `npm run build` (production build + TypeScript typecheck) | PASS — static `/` + `/work`; dynamic `/chat`, `/api/chat`, `/work/[slug]` |
-| `npm run lint` (ESLint) | PASS — zero errors |
-| Routes `/`, `/work`, `/work/[slug]`, `/chat`, `/api/chat` | Generated in build output |
-| External open-in-new-tab safety (`rel="noopener noreferrer"`) | Present on all external links |
-| Reduced-motion gating | Honoured in `globals.css` and all motion primitives |
-| No secrets leaked to frontend | `GROQ_API_KEY` server-side only; Source links only for public repos |
+| `npx tsc --noEmit` | PASS |
+| ESLint over all `src/**/*.ts(x)` | PASS (0 errors, 0 warnings) |
+| `npm run build` | PASS; 26 static pages |
+| `/work/[slug]` routes | PASS (15 prerendered, unknown slug 404) |
+| Sitemap URLs | PASS (19/19 return 200) |
+| Internal links from rendered pages | PASS (27/27 return 200) |
+| Project/OG/icon assets | PASS |
+| Contact API validation/honeypot/origin | PASS (422/400/403) |
+| Missing-key chat path | PASS (503, no secret leakage) |
+| Client system-role injection / oversized payload | PASS (400) |
+| Secrets in client bundle | PASS (none found) |
+| `X-Powered-By` removed | PASS |
+| Live Formspree delivery | NOT TESTED (avoided sending a real inquiry) |
+| Live Groq completion | NOT TESTED (no local key) |
+| Lighthouse / screen reader / visual breakpoints | NOT TESTED |
 
-## Live URL verification (fetch where network allowed)
+## 5. Remaining limitations
 
-Verified: AI Health Chat, TutaLearn, Luminae, Codebase Genius, WeatherWise, SerenityAI (minimal landing), Weru Digital, AutoResearcher GitHub.
-Could not reach / unverified: Kazi Connect (`kaziconnect.qzz.io`), Movie Recommendation Engine (`movie-recommender.qzz.io`). GitHub `ai-health-chat` returns 404 (not linked as source).
-Per the spec, unverified items are marked "unverified", not passed.
+1. All 15 project visuals are branded placeholders labelled as pending; replace with authentic 1200×630 captures.
+2. Confirm `GROQ_API_KEY` in Vercel before relying on `/chat`.
+3. Send one controlled test inquiry through the Formspree form and confirm delivery.
+4. Run Lighthouse, keyboard/screen-reader and 320/375/768/1024/1440 visual checks.
+5. Confirm `info@devray.site` is monitored and deliverable.
+6. Consider a real analytics/privacy decision if analytics is added later.
 
-## Remaining limitations / next priorities
+## 6. Deployment
 
-1. Replace the 9 branded placeholder PNGs in `public/projects/` with real 1200×630 screenshots.
-2. Replace `public/og-image.png` with a branded 1200×630 card.
-3. Confirm the AI Health Chat hackathon event name for the 🏆 seal tooltip/aria-label.
-4. Confirm `GROQ_API_KEY` is set on Vercel (and `.env.local` locally) so `/api/chat` works.
-5. Refresh `public/sitemap.xml` lastmod dates and align `robots.txt` sitemap host (`devray.site` vs `devray.qzz.io`).
-6. Execute Phase 7 QA checklist: Lighthouse mobile ≥85 / LCP ≤2.5s / CLS <0.1; reduced-motion static-card render; low-end CPU 4× scroll; keyboard/a11y Tab pass; full external link cross-check.
-7. Deploy to Vercel preview, verify, then promote to production.
+- Build: `npm run build`
+- Start: `npm run start`
+- Host: Vercel, auto-deploy from GitHub `master`
+- Env: `GROQ_API_KEY` (required for chat), `FORMSPREE_ENDPOINT` (optional)
+- No database or migration required.
 
-## Env / deployment
+## 7. Key files
 
-- Build command: `npm run build` (Next.js 16, Turbopack)
-- Required env var (production): `GROQ_API_KEY` for `/api/chat`
-- No `.env.local` exists locally; chat route requires the key in the deployed environment
-- Deploy target: Vercel (auto-deploys from GitHub `master`)
-
-## Files changed
-
-Modified: `README.md`, `src/components/Projects.tsx`, `src/components/Services.tsx`, `src/data/index.ts`, `src/types/index.ts`
-New: `docs/DEVRAY_REDESIGN_AUDIT.md`, `docs/DEVRAY_REDESIGN_QA.md`, `docs/DEVRAY_CONTENT_VERIFICATION.md`, `docs/DEVRAY_REDESIGN_SUMMARY.md`, `src/app/work/page.tsx`, `src/app/work/[slug]/page.tsx`
+**New components:** `ServiceIcon`, `ProjectCard`, `AudienceStrip`, `WhyDevRay`, `Process`, `FAQ`.
+**New routes:** `privacy`, `api/contact`, `sitemap.ts`, `robots.ts`.
+**Reworked:** data/types, layout, homepage, work pages, chat API, all major sections, styles, config, manifest, README.
+**Docs:** `DEVRAY_REDESIGN_AUDIT.md`, `DEVRAY_REDESIGN_QA.md`, `DEVRAY_CONTENT_VERIFICATION.md`, this summary.

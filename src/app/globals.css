@@ -22,15 +22,29 @@
   --font-sans: var(--font-inter);
 }
 
-html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+html { scroll-behavior: smooth; scroll-padding-top: 96px; }
 
 body {
   background: var(--color-ink-950);
   color: var(--color-parchment-300);
   font-family: var(--font-sans), system-ui, sans-serif;
+  text-rendering: optimizeLegibility;
 }
 
 h1, h2, h3, h4 { font-family: var(--font-display), Georgia, serif; }
+
+::selection {
+  background: var(--color-ochre-400);
+  color: var(--color-ink-950);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-ochre-400);
+  outline-offset: 3px;
+}
+
+details > summary { cursor: pointer; }
+details > summary::marker { content: ''; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

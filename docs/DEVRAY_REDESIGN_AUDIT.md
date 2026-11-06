@@ -1,72 +1,83 @@
 # DevRay Lab — Redesign Audit
 
-**Branch:** `feat/master-prompt-implementation`
-**Base commit:** `cd34eaf` (forest-ink & gold-ochre redesign deployed to `https://devray.qzz.io`)
-**Scope:** Content-accuracy restoration, verified project catalogue, case-study routes, SEO/sitemap refresh, QA docs.
+**Date:** 6 November 2026
+**Scope:** Complete implementation of `DevRay_Lab_Complete_Redesign_Copilot_Master_Prompt.md` in the existing DevRay codebase, plus fixes for runtime and content defects found during the audit.
+**Stack:** Next.js 16.1.3 (App Router, Turbopack) · React 19 · Tailwind CSS v4 · TypeScript · Motion · React Three Fiber · Vercel
 
-## 1. Baseline state (from report.md)
+## 1. Baseline
 
-Phases 0–7 of `implementation.md` were completed and deployed:
-- Phase 0: `public/projects/` with 9 placeholder PNGs, `public/og-image.png`, build green
-- Phase 1: Forest-Ink / Gold-Ochre tokens in `globals.css`, Fraunces + Inter typography
-- Phase 2: tiered services + proof links, project tiers, founder link, named credentials
-- Phase 3: motion primitives (Reveal, StaggerGrid, TiltCard, MagneticButton)
-- Phase 4: 3D hero scene (React Three Fiber), lazy-loaded, reduced-motion gated
-- Phase 5: section rebuilds (Hero, Services, About, Projects, Header/Footer/Contact/Chat)
-- Phase 6: metadataBase, openGraph, Twitter card, Organization JSON-LD
-- Phase 7: lint and build zero errors; deployed `cd34eaf` to Vercel
+The repository already had a partial Forest-Ink / Gold-Ochre redesign: tokens, Fraunces/Inter typography, motion primitives, a lazy 3D hero, a case-study data model and `/work` routes. The previous work did not yet satisfy the master prompt's homepage information architecture, service structure, conversion system, SEO routes or QA/reporting requirements.
 
-Remaining per report.md: real screenshots/OG image, Luminae/Kazi Connect/Movie Rec URL verification, AI Health Chat hackathon name, GROQ_API_KEY on Vercel, sitemap lastmod refresh, QA Phase 7 checklist.
+### Defects found in the baseline
 
-## 2. Changes in this branch
+| Severity | Defect |
+|---|---|
+| Critical | Every `/work/[slug]` page returned 404 because Next.js 16 passes `params` as a Promise and the page read `params.slug` synchronously. Case-study metadata had the same bug. |
+| High | AutoResearcher referenced a non-existent screenshot `/projects/cropped_circle_image.png`. |
+| High | Hero core-service icons never rendered: the icon map used old service IDs while lookup used the new `icon` values. |
+| High | `/work` and `/work/[slug]` were missing the site Header and Footer. |
+| Medium | Contact form declared hidden `_subject`/`_to` fields but never submitted them; all validation was client-side only. |
+| Medium | `sitemap.xml` and `robots.txt` used `devray.site` while the canonical host is `devray.qzz.io`; the sitemap omitted `/work`, case studies and privacy. |
+| Medium | Footer service list used a hard-coded slice/count and did not match the catalogue. |
+| Medium | Homepage lacked the required audience strip, why-DevRay section, process, FAQ, privacy notice and contextual service CTAs. |
+| Medium | Only two services were marked core; the specification requires four. |
+| Medium | Project catalogue omitted Sauti Mtaani, EyeSense, PostShifterPro, Live Interviewer and UrbanSpark AI, and used an unverified Kazi Connect URL. |
+| Low | WeatherWise linked to an expired domain that is now for sale. |
+| Low | `favicon.ico` was an 818 KB PNG renamed as `.ico`; app icons were missing. |
+| Low | The chat system prompt contained inflated claims (24/7 autonomy, "premium agency" language) and the API had no validation or configuration guard. |
+| Low | `/work` used a raw `<img>` instead of `next/image`. |
 
-### Data model (`src/types/index.ts`)
-- Extended `Service`: optional `tagline`, `for`, `problem`, `delivered`, `integrations`, `howToBegin`, `evidence`; `features` and `tech` optional; sparse evidence-based tech tags
-- Extended `Project`: `slug`, `productType`, `projectStatus`, `engagementType`, `role`, `problem`, `audience`, `solution`, `technicalHighlights`, `responsibilities`, `constraintsAndTradeoffs`, `privacyAccessibility`, `verifiedEvidence`, `limitations`, `tech` (required), `screenshot`, `screenshotAlt`, `demoUrl`, `caseStudyUrl`, `repositoryUrl`, `isRepositoryPublic`, `updatedAt`; kept `image`/`tags`/`githubUrl` as legacy aliases during transition
+## 2. Implementation
 
-### Data catalogue (`src/data/index.ts`)
-- Rewrote `services` as buyable-outcome core services (AI Applications & Intelligent Automation; Web Platforms & Custom Software) + additional capabilities (Mobile Applications, Data Analytics & Applied ML, Livestreaming & Videography, Technical Content & Documentation, WordPress Development, Digital Media & Social Media Management)
-- Rewrote `projects` as a verified catalogue of 9 signature + secondary projects:
-  - AI Health Chat (signature) — verified live at aihealthchat.qzz.io; educational triage only, not clinical
-  - TutaLearn (signature) — verified live at tutalearn.qzz.io; KICD-aligned CBC platform
-  - Luminae (signature) — verified live at luminae.qzz.io; Mistral hackathon build; no zero-hallucination claims
-  - Codebase Genius (secondary) — verified demo at geniuscodebase.streamlit.app
-  - WeatherWise Planner (secondary) — verified demo at weatherwise.earth; NASA GIBS data
-  - SerenityAI (secondary) — verified minimal landing at serenityai.qzz.io; not clinical therapy
-  - Weru Digital (secondary) — verified live at werudigital.co.ke
-  - Kazi Connect (secondary) — link/status unverified, flagged
-  - Movie Recommendation Engine (secondary) — public-leaderboard RMSE context only; not a production recommender
-  - AutoResearcher (secondary) — public GitHub repo verified
-- Removed fabricated client results, employment arrangements, and unverified certifications
-- Added `institutionalExperience` (Pan-African Parliament, described as experience only, no endorsement implied)
-- Updated `professionalProfile` title to "Software and AI Engineer" / founder-led
-- Updated `namedCredentials` (Oracle OCI 2025, Google Cloud, AWS)
+### Positioning and homepage IA
+- Hero now uses the specified founder-led positioning, two purposeful CTAs, a restrained proof row and availability microcopy.
+- Added an audience/problem strip with four concrete starting points.
+- Added **Why DevRay**, **How we work** (six stages with deliverables) and **FAQ** sections.
+- Reordered the homepage: Hero → audience strip → services → selected work → why → process → about → FAQ → contact.
+- Homepage now shows six featured case studies instead of the full catalogue; the full set lives on `/work`.
 
-### Components
-- `src/components/Services.tsx`: buyable-outcome card copy (For / Problem / Delivered / How to begin / Evidence), optional `tech` chip list, optional features
-- `src/components/Projects.tsx`: `screenshot`/`screenshotAlt`, `tech` chips, `repositoryUrl` only rendered when `isRepositoryPublic` (no Source button for private/unverified repos)
-- `src/components/About.tsx` and `Footer.tsx` unchanged but data-driven via new `namedCredentials`/`founderLink`
+### Services
+- Four core offers promoted: AI Applications & Intelligent Automation; Web Platforms & Custom Software; Mobile Applications; Data Analytics & Applied ML.
+- Each core service carries buyer problem, deliverables, integrations/constraints, how to begin, sparse evidence-based technology tags, proof link, related case studies and a contextual "Discuss this service" CTA.
+- Four additional capabilities retained as a compact cross-sell section.
+- Shared `ServiceIcon` component removes the risk of icon-map drift.
 
-### New routes
-- `src/app/work/page.tsx` — Work index listing signature + additional work
-- `src/app/work/[slug]/page.tsx` — per-project case study with problem/solution/evidence/limitations + live/source/CTA links
+### Case studies and content
+- Canonical catalogue expanded to 15 projects with problem, audience, solution, architecture, technical highlights, responsibilities, constraints, privacy/accessibility, verified evidence, limitations, client relevance, technology and links.
+- Added Sauti Mtaani Nairobi, EyeSense, PostShifterPro, Live Interviewer and UrbanSpark AI.
+- Updated project facts against the founder's public technical portfolio (technologies, roles, links, award, README-reported results).
+- Removed the expired WeatherWise live URL and labelled it "Demo offline".
+- Source links render only when `isRepositoryPublic` is true.
+- Case studies are statically generated for every slug and now include architecture, client relevance, verified evidence, limitations and a contextual CTA.
 
-### Content-verification outcome (fetch checks)
-- Verified live: AI Health Chat, TutaLearn, Luminae, Codebase Genius, WeatherWise, SerenityAI, Weru Digital, AutoResearcher GitHub
-- Could not reach / failed: kaziconnect.qzz.io, movie-recommender.qzz.io — flagged unverified in `docs/DEVRAY_CONTENT_VERIFICATION.md`
-- aihealthchat.qzz.io GitHub `CapstoneProject-Autoresearcher` verified public
+### Conversion system
+- Contact form now collects name, email, organisation, service category, budget range, desired start, project description and privacy consent.
+- Client-side validation plus server-side validation in `/api/contact`.
+- Hidden honeypot, origin check and best-effort rate limit.
+- Inquiries are delivered server-side through Formspree; failures return an error and a real `mailto:info@devray.site` fallback. No fake success state.
+- Contextual CTAs pass `service` or `source` identifiers; the form includes the source in the delivery payload.
+- Added a truthful `/privacy` page covering the form, Formspree, AI chat/Groq, retention and contact.
 
-## 3. Open items / known limitations
-- Real project screenshots are still branded placeholder PNGs; replace with actual 1200×630 captures
-- `public/og-image.png` is generated; replace with branded card
-- AI Health Chat hackathon event name unconfirmed (currently "Hackathon Winner")
-- `GROQ_API_KEY` must be confirmed on Vercel for `/api/chat`; `.env.local` does not exist locally
-- `public/sitemap.xml` lastmod dates not refreshed
-- Lighthouse / reduced-motion / low-end / keyboard & link audits not yet executed
-- No `.env.local` present; chat requires GROQ_API_KEY in production env
+### SEO, accessibility, performance and security
+- Per-route metadata, canonical URLs, Open Graph and Twitter data.
+- Generated `sitemap.xml` (19 URLs) and `robots.txt` from the catalogue and canonical host.
+- `ProfessionalService` + `Person` + `WebSite` structured data with truthful facts.
+- Skip link, focus-visible styling, semantic headings/landmarks, labelled form fields, inline errors, `aria-live` status, `aria-current` navigation, keyboard-operable mobile menu, and reduced-motion handling.
+- `next/image` used for content and brand imagery; images have dimensions or `fill` + `sizes`.
+- New compressed 192/512 PWA icons, app icon and a real 32×32 favicon.
+- Chat and contact secrets remain server-side; API inputs are validated and bounded.
+- The chat system prompt lives in `src/lib/devray-prompt.ts` and is prepended server-side; client-supplied `system` messages are rejected.
 
-## 4. Deliverables pending
-- `docs/DEVRAY_REDESIGN_QA.md` (Phase 7 checklist results)
-- `docs/DEVRAY_CONTENT_VERIFICATION.md` (broken/unverified links, project status, screenshot needs)
-- README updates describing configuration and contact form behavior
-- Final implementation summary
+## 3. Known limitations
+
+- All project visuals are branded placeholders. They are explicitly labelled "Case-study visual pending" and are not fabricated product UI. Real 1200×630 captures are still needed.
+- `public/og-image.png` is a generated brand card, not a product screenshot.
+- Real Formspree delivery was not exercised to avoid sending a live inquiry. Validation, origin, honeypot and failure paths were tested.
+- Live Groq responses were not tested because `GROQ_API_KEY` is not set locally; the missing-key path returns 503 with no secret leakage.
+- Lighthouse, screen-reader and visual breakpoint checks were not executed in this environment.
+- External links were checked by HTTP fetch where the network permitted; WeatherWise's domain has expired and is no longer linked.
+
+## 4. Key files
+
+**Added:** `src/components/ServiceIcon.tsx`, `ProjectCard.tsx`, `AudienceStrip.tsx`, `WhyDevRay.tsx`, `Process.tsx`, `FAQ.tsx`, `src/app/privacy/page.tsx`, `src/app/api/contact/route.ts`, `src/app/sitemap.ts`, `src/app/robots.ts`, app icons.
+**Reworked:** `src/data/index.ts`, `src/types/index.ts`, `src/app/layout.tsx`, `src/app/page.tsx`, `src/app/work/page.tsx`, `src/app/work/[slug]/page.tsx`, `src/app/api/chat/route.ts`, all main section components, `globals.css`, `next.config.js`, `public/manifest.json`, `README.md`.
