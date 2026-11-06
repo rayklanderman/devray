@@ -1,25 +1,55 @@
 export interface Service {
   id: string;
   title: string;
+  tagline?: string;
   description: string;
+  for?: string;          // Who this is for
+  problem?: string;      // Problem we solve
+  delivered?: string;    // What is delivered
+  integrations?: string; // Integrations / constraints that matter
+  howToBegin?: string;   // How to begin
+  evidence?: string;     // Proof pointer (project names)
   icon: string;
-  features: string[];
-  technologies?: string[];
+  features?: string[];
+  tech?: string[];       // Sparse, evidence-based tags only
   tier: 'core' | 'additional';
   proof?: { label: string; url: string };
 }
 
 export interface Project {
   id: string;
+  slug: string;
   title: string;
-  description: string;
-  image: string;
-  tags: string[];
+  productType?: string;
+  projectStatus?: string;
+  engagementType?: string;
+  role?: string;
+  problem?: string;
+  audience?: string;
+  solution?: string;
+  technicalHighlights?: string[];
+  responsibilities?: string[];
+  constraintsAndTradeoffs?: string;
+  privacyAccessibility?: string;
+  verifiedEvidence?: string;
+  limitations?: string;
+  description?: string;
+  tech: string[];
+  screenshot: string;
+  screenshotAlt: string;
   liveUrl?: string;
-  githubUrl?: string;
+  demoUrl?: string;
+  caseStudyUrl?: string;
+  repositoryUrl?: string;
+  isRepositoryPublic?: boolean;
   featured: boolean;
   tier: 'signature' | 'secondary';
   award?: string;
+  updatedAt: string;
+  // Legacy aliases kept for existing card components during transition.
+  image?: string;
+  tags?: string[];
+  githubUrl?: string;
 }
 
 export interface Education {
