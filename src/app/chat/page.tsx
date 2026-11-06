@@ -6,15 +6,17 @@ import Footer from '@/components/Footer';
 import DevRayChat from '@/components/DevRayChat';
 
 export const metadata = {
-  title: 'DevRay AI Chat | Get AI Recommendations',
-  description: 'Chat with DevRay AI about our services, get AI-powered recommendations for your business, and start your digital transformation journey.',
+  title: 'AI Chat',
+  description:
+    'Ask DevRay AI about software, AI, web, mobile and data/ML services, or use it to prepare a project inquiry.',
+  alternates: { canonical: '/chat' },
 };
 
 export default function ChatPage() {
   return (
     <div className="min-h-screen bg-ink-950">
       <Header />
-      <main>
+      <main id="main-content">
         <div className="pt-16 px-4">
           <Link
             href="/"

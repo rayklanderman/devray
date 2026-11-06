@@ -1,73 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DevRay
 
-## Getting Started
+Founder-led software and applied-AI engineering services site for DevRay Lab.
 
-First, run the development server:
+**Live target:** https://devray.qzz.io  
+**Stack:** Next.js 16 (App Router, Turbopack) · React 19 · Tailwind CSS v4 · TypeScript · Motion · React Three Fiber
+
+## Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Script | Purpose |
+|---|---|
+| `npm run dev` | Start the development server |
+| `npm run build` | Production build (includes TypeScript checking) |
+| `npm run start` | Serve the production build |
+| `npm run lint` | Run ESLint |
 
-## Learn More
+## Routes
 
-To learn more about Next.js, take a look at the following resources:
+| Route | Description |
+|---|---|
+| `/` | Home: hero, audience strip, four core services, selected work, why DevRay, process, founder, FAQ, contact |
+| `/work` | Full case-study index (signature + additional work) |
+| `/work/[slug]` | Prerendered case study per project |
+| `/privacy` | Privacy notice for the inquiry form and AI chat |
+| `/chat` | AI assistant (dynamic; requires `GROQ_API_KEY`) |
+| `/api/chat` | Server-side Groq proxy with validation and rate limiting |
+| `/api/contact` | Server-side inquiry validation and Formspree delivery |
+| `/sitemap.xml` | Generated from the project catalogue |
+| `/robots.txt` | Generated with the canonical sitemap URL |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Content and data
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `src/data/index.ts` is the canonical source for navigation, services, the 15-project case-study catalogue, homepage supporting content, FAQs, process steps, education, certifications and founder profile.
+- `src/types/index.ts` defines the content model.
+- `src/app/work/[slug]/page.tsx` prerenders every project in the catalogue via `generateStaticParams`.
+- `public/projects/` currently contains branded placeholder visuals, not authentic product captures. Replace them with real screenshots when available; the placeholders are explicitly labelled as pending rather than fabricating product UI.
 
-## Deploy on Vercel
+## Design system
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Tokens: `src/app/globals.css` (`ink-*` forest backgrounds, `ochre-*` accents, `parchment-*` text, Fraunces + Inter).
+- Motion primitives: `src/components/motion/` (`Reveal`, `StaggerGrid`, `TiltCard`, `MagneticButton`), all honouring `prefers-reduced-motion`.
+- 3D hero: `src/components/three/HeroScene.tsx`, lazy-loaded with `StaticHeroCard` fallback and gated for reduced motion / low-core devices.
+- Shared UI: `ServiceIcon`, `ProjectCard`, section components under `src/components/`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Contact form behaviour
 
-## Configuration
+1. The browser validates required fields and length limits, then posts JSON to `/api/contact`.
+2. The API route performs the same validation server-side, checks the request origin, enforces a best-effort per-instance rate limit, and rejects the hidden honeypot field.
+3. Valid inquiries are forwarded server-side to Formspree. No fake success state is shown: if Formspree is unavailable, the form returns an error and offers `mailto:info@devray.site`.
+4. Contextual CTAs pass a service or source identifier through the URL (for example `/?service=ai-applications#contact`); the form reads it after paint and includes it in the delivery payload.
 
-This is a Next.js 16 (App Router), React 19, Tailwind CSS v4, TypeScript project.
+The default Formspree endpoint is `https://formspree.io/f/mqeebboy`. Set `FORMSPREE_ENDPOINT` to override it.
 
-- Design tokens: `src/app/globals.css` (Forest-Ink backgrounds, Gold-Ochre accents, Parchment text; Fraunces + Inter via `next/font`)
-- Data layer: `src/data/index.ts` (services, projects, education, certifications, profile, credentials)
-- Types: `src/types/index.ts`
-- Motion primitives: `src/components/motion/` (Reveal, StaggerGrid, TiltCard, MagneticButton)
-- 3D hero: `src/components/three/HeroScene.tsx` (React Three Fiber), lazy-loaded with `StaticHeroCard` fallback; gated off for `prefers-reduced-motion` and low CPU
-
-### Environment variables
+## Environment variables
 
 | Variable | Required | Purpose |
 |---|---|---|
-| `GROQ_API_KEY` | Production only (`/api/chat`) | Groq API key for the AI chat route. `.env.local` does not exist locally; must be set on Vercel for `/api/chat` to function. |
+| `GROQ_API_KEY` | Production for `/api/chat` | Server-side Groq key. If absent, the chat returns a clear "not configured" message. |
+| `FORMSPREE_ENDPOINT` | Optional | Override the Formspree form endpoint used by `/api/contact`. |
 
-No secrets are exposed to the frontend.
+No secrets are exposed to the browser. The chat and contact endpoints run on the server.
 
-### Contact form
+## Deployment
 
-The Contact section submits to Formspree (`https://formspree.io/f/mqeebboy`) on submit. States: idle → submitting → success/error. A success state is only set when Formspree responds OK; errors fall back to suggesting `mailto:info@devray.site`. No fake confirmation is shown.
+Deploy to Vercel (the existing project auto-deploys from the GitHub `master` branch).
 
-### Scripts
+- Build command: `npm run build`
+- Output: Next.js App Router
+- Confirm `GROQ_API_KEY` is set in the production environment
+- Confirm the Formspree form is active and delivering to the intended inbox
 
-- `npm run dev` — start dev server
-- `npm run build` — production build (includes TypeScript typecheck)
-- `npm run start` — start production server
-- `npm run lint` — run ESLint
+## Documentation
 
-### Routes
-
-- `/` — Home (Hero, Services, About, Projects, Contact)
-- `/work` — Work index (signature + additional projects)
-- `/work/[slug]` — Per-project case study
-- `/chat` — AI chat (dynamic, requires `GROQ_API_KEY`)
-- `/api/chat` — Chat API route (dynamic, requires `GROQ_API_KEY`)
+- `docs/DEVRAY_REDESIGN_AUDIT.md` — baseline and implementation audit
+- `docs/DEVRAY_REDESIGN_QA.md` — checks run and pass/fail/not-tested status
+- `docs/DEVRAY_CONTENT_VERIFICATION.md` — link and claim verification status
+- `docs/DEVRAY_REDESIGN_SUMMARY.md` — final implementation summary
+- `DevRay_Lab_Complete_Redesign_Copilot_Master_Prompt.md` — source specification

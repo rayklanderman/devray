@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { services } from '@/data';
 
 interface Message {
   id: string;
@@ -13,109 +12,81 @@ interface Message {
 const SUGGESTIONS = [
   {
     icon: '🤖',
-    title: 'AI-Powered Website',
-    description: 'Build an autonomous AI site for marketing, sales & shipping',
+    title: 'AI feature',
+    description: 'Help me scope an AI assistant or automation workflow',
   },
   {
     icon: '🛒',
-    title: 'E-commerce Solution',
-    description: 'Full online store with AI-driven recommendations',
+    title: 'Web platform',
+    description: 'I need a portal, dashboard or internal tool',
   },
   {
     icon: '📱',
-    title: 'Mobile App Development',
-    description: 'Cross-platform apps for iOS & Android',
+    title: 'Mobile app',
+    description: 'I need a Flutter Android and iOS app',
   },
   {
     icon: '📊',
-    title: 'Data Analytics Dashboard',
-    description: 'Transform your data into actionable insights',
+    title: 'Data & ML',
+    description: 'Help me understand what my data can support',
   },
   {
     icon: '🎯',
-    title: 'Digital Marketing',
-    description: 'AI-powered social media & content strategy',
+    title: 'Not sure yet',
+    description: 'Help me work out what kind of project I need',
   },
   {
     icon: '🌐',
-    title: 'Custom Web Platform',
-    description: 'Scalable web solutions with modern tech stack',
+    title: 'Existing system',
+    description: 'I need help improving or integrating an existing product',
   },
 ];
 
-const SYSTEM_PROMPT = `You are DevRay AI, the official AI assistant for DevRay - a premium digital services company.
+function makeId() {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID();
+  }
+  return `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+}
 
-## About DevRay
-DevRay provides cutting-edge digital solutions including:
-- Web Development (Next.js, React, TypeScript, Node.js, Python)
-- AI & Machine Learning (LLMs, RAG systems, autonomous agents)
-- Data Analysis & Analytics (Python, Pandas, Power BI, Tableau)
-- WordPress Development (Divi, Elementor, SEO optimization)
-- Digital Media & Social Media Management
-- Mobile App Development (Flutter, React Native)
-- Live Streaming & Videography
-- PWA Development
-
-## Your Personality & Tone
-- Professional yet friendly
-- Solution-oriented and proactive
-- Technical but accessible
-- Confident about capabilities
-- Always highlight business value
-
-## Key Selling Points
-1. **Autonomous AI Agents**: "Today's business environment requires AI-powered systems that run autonomously to handle marketing, sales, transactions, and shipping. DevRay builds intelligent agent systems that work 24/7 without human intervention."
-
-2. **Production-Ready Solutions**: All solutions are production-ready with automated deployment pipelines, cloud architecture, and scalable infrastructure.
-
-3. **Modern Tech Stack**: Using latest frameworks like Next.js 15, Python FastAPI, Flutter, and cloud platforms like Google Cloud.
-
-4. **AI-First Approach**: Every solution can be enhanced with AI capabilities - chatbots, recommendations, automation, analytics.
-
-## Response Guidelines
-- Understand client needs before suggesting solutions
-- Highlight how AI can automate their specific business processes
-- Mention relevant technologies for their use case
-- Be specific about capabilities and outcomes
-- Always end with a call-to-action to discuss their project
-- If asked about topics outside DevRay's scope, politely redirect to services
-
-## Services Quick Reference
-${services.map(s => `- ${s.title}: ${s.description}`).join('\n')}
-
-Remember: You are helping businesses understand how modern AI-powered solutions can transform their operations. Focus on business value and practical applications.`;
+function createGreeting(): Message {
+  return {
+    id: makeId(),
+    role: 'assistant',
+    content:
+      "Hello — I'm DevRay AI. I can help you think through an AI, web, mobile or data project. What are you trying to build or improve?",
+    timestamp: new Date(),
+  };
+}
 
 export default function DevRayChat() {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      role: 'assistant',
-      content: `Hello! I'm DevRay AI. How can I help you today?`,
-      timestamp: new Date(),
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([createGreeting()]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const messagesContainerRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
   };
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [messages, isLoading]);
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
 
     const userMessage: Message = {
-      id: Date.now().toString(),
+      id: makeId(),
       role: 'user',
       content: input.trim(),
       timestamp: new Date(),
     };
+
+    const history = messages.map((message) => ({
+      role: message.role,
+      content: message.content,
+    }));
 
     setMessages((prev) => [...prev, userMessage]);
     setInput('');
@@ -124,46 +95,47 @@ export default function DevRayChat() {
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          messages: [
-            {
-              role: 'system',
-              content: SYSTEM_PROMPT,
-            },
-            ...messages.map((m) => ({
-              role: m.role,
-              content: m.content,
-            })),
-            {
-              role: 'user',
-              content: userMessage.content,
-            },
-          ],
+          messages: [...history, { role: 'user', content: userMessage.content }],
         }),
       });
 
+      const data = await response.json().catch(() => ({}));
+
       if (!response.ok) {
-        throw new Error('Failed to get response');
+        throw new Error(
+          typeof data.error === 'string'
+            ? data.error
+            : 'I could not process that request. Please try again.'
+        );
       }
 
-      const data = await response.json();
+      const content =
+        typeof data.content === 'string'
+          ? data.content
+          : data?.choices?.[0]?.message?.content;
+
+      if (typeof content !== 'string' || content.trim().length === 0) {
+        throw new Error('The assistant returned an empty response. Please try again.');
+      }
 
       const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
+        id: makeId(),
         role: 'assistant',
-        content: data.choices[0].message.content,
+        content,
         timestamp: new Date(),
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
-    } catch {
+    } catch (error) {
       const errorMessage: Message = {
-        id: (Date.now() + 1).toString(),
+        id: makeId(),
         role: 'assistant',
-        content: `I apologize, but I encountered an issue processing your request. Please try again or contact us directly at info@devray.site for immediate assistance.`,
+        content:
+          error instanceof Error
+            ? error.message
+            : 'I encountered an issue processing your request. Please try again or email info@devray.site.',
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, errorMessage]);
@@ -177,21 +149,24 @@ export default function DevRayChat() {
   };
 
   return (
-    <section id="chat" className="min-h-screen bg-ink-950 pt-16">
+    <section id="chat" aria-labelledby="chat-heading" className="min-h-screen bg-ink-950 pt-16">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4 h-screen flex flex-col">
         <div className="text-center mb-4">
-          <h1 className="text-2xl sm:text-3xl font-bold text-parchment-100 mb-1">
+          <h1 id="chat-heading" className="text-2xl sm:text-3xl font-bold text-parchment-100 mb-1">
             DevRay AI Assistant
           </h1>
           <p className="text-parchment-500 text-sm">
-            Ask about our services, get AI recommendations, or start your project
+            Explore a project idea or ask about services. AI can make mistakes — confirm commitments
+            through the inquiry form.
           </p>
         </div>
 
         <div className="flex-1 flex flex-col bg-ink-900 rounded-2xl border border-ink-700 overflow-hidden min-h-0">
-          <div 
-            ref={messagesContainerRef}
+          <div
             className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4"
+            role="log"
+            aria-live="polite"
+            aria-label="Chat messages"
           >
             {messages.map((message) => (
               <div
@@ -205,10 +180,10 @@ export default function DevRayChat() {
                       : 'bg-ink-800 text-parchment-100 border border-ink-700'
                   }`}
                 >
-                  <div className="flex items-start space-x-2 sm:space-x-3">
+                  <div className="flex items-start gap-2 sm:gap-3">
                     {message.role === 'assistant' && (
                       <div className="w-7 h-7 sm:w-8 sm:h-8 bg-ochre-400 rounded-full flex items-center justify-center flex-shrink-0">
-                        <span className="text-ink-950 font-bold text-xs sm:text-sm">DR</span>
+                        <span className="text-ink-950 font-bold text-xs sm:text-sm" aria-hidden="true">DR</span>
                       </div>
                     )}
                     <div className="flex-1 min-w-0">
@@ -216,16 +191,10 @@ export default function DevRayChat() {
                         {message.content}
                       </p>
                       <p className="text-xs text-parchment-500 mt-1">
+                        <span className="sr-only">{message.role === 'user' ? 'You' : 'DevRay AI'} at </span>
                         {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </p>
                     </div>
-                    {message.role === 'user' && (
-                      <div className="w-7 h-7 sm:w-8 sm:h-8 bg-ink-700 rounded-full flex items-center justify-center flex-shrink-0">
-                        <svg className="w-3 h-3 sm:w-4 sm:h-4 text-parchment-500" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                        </svg>
-                      </div>
-                    )}
                   </div>
                 </div>
               </div>
@@ -234,15 +203,16 @@ export default function DevRayChat() {
             {isLoading && (
               <div className="flex justify-start">
                 <div className="bg-ink-800 text-parchment-100 border border-ink-700 rounded-2xl px-4 py-3">
-                  <div className="flex items-center space-x-2 sm:space-x-3">
+                  <div className="flex items-center gap-2 sm:gap-3">
                     <div className="w-7 h-7 sm:w-8 sm:h-8 bg-ochre-400 rounded-full flex items-center justify-center">
-                      <span className="text-ink-950 font-bold text-xs sm:text-sm">DR</span>
+                      <span className="text-ink-950 font-bold text-xs sm:text-sm" aria-hidden="true">DR</span>
                     </div>
-                    <div className="flex space-x-1">
+                    <div className="flex gap-1" aria-hidden="true">
                       <div className="w-2 h-2 bg-ochre-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
                       <div className="w-2 h-2 bg-ochre-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
                       <div className="w-2 h-2 bg-ochre-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                     </div>
+                    <span className="sr-only">DevRay AI is responding</span>
                   </div>
                 </div>
               </div>
@@ -253,28 +223,25 @@ export default function DevRayChat() {
 
           {messages.length <= 1 && (
             <div className="px-4 py-3 border-t border-ink-700 bg-ink-900">
-              <p className="text-xs text-parchment-500 mb-3 text-center">
-                Try asking about:
-              </p>
+              <p className="text-xs text-parchment-500 mb-3 text-center">Try asking about:</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {SUGGESTIONS.map((suggestion, index) => (
+                {SUGGESTIONS.map((suggestion) => (
                   <button
-                    key={index}
+                    key={suggestion.title}
+                    type="button"
                     onClick={() => handleSuggestionClick(suggestion.description)}
-                    className="flex items-center space-x-2 p-3 bg-ink-800 rounded-lg border border-ink-700 hover:border-ochre-500/50 hover:bg-ink-700 transition-all text-left group"
+                    className="flex items-center gap-2 p-3 bg-ink-800 rounded-lg border border-ink-700 hover:border-ochre-500/50 hover:bg-ink-700 transition-all text-left group"
                   >
-                    <span className="text-xl">{suggestion.icon}</span>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-parchment-100 font-medium text-xs sm:text-sm truncate group-hover:text-ochre-300">
+                    <span className="text-xl" aria-hidden="true">{suggestion.icon}</span>
+                    <span className="flex-1 min-w-0">
+                      <span className="block text-parchment-100 font-medium text-xs sm:text-sm truncate group-hover:text-ochre-300">
                         {suggestion.title}
-                      </p>
-                      <p className="text-parchment-500 text-xs truncate">
+                      </span>
+                      <span className="block text-parchment-500 text-xs truncate">
                         {suggestion.description}
-                      </p>
-                    </div>
-                    <svg className="w-3 h-3 sm:w-4 sm:h-4 text-parchment-500 group-hover:text-parchment-300 transition-colors flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
+                      </span>
+                    </span>
+                    <span className="text-parchment-500 group-hover:text-parchment-300 transition-colors flex-shrink-0" aria-hidden="true">→</span>
                   </button>
                 ))}
               </div>
@@ -283,33 +250,37 @@ export default function DevRayChat() {
 
           <div className="p-3 sm:p-4 border-t border-ink-700 bg-ink-900 flex-shrink-0">
             <form
-              onSubmit={(e) => {
-                e.preventDefault();
+              onSubmit={(event) => {
+                event.preventDefault();
                 handleSend();
               }}
-              className="flex items-center space-x-2"
+              className="flex items-center gap-2"
             >
+              <label htmlFor="chat-input" className="sr-only">Ask DevRay AI about your project</label>
               <input
+                id="chat-input"
                 type="text"
                 value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask about AI solutions..."
+                onChange={(event) => setInput(event.target.value)}
+                placeholder="Describe your project or ask a question…"
+                maxLength={2000}
+                autoComplete="off"
                 className="flex-1 bg-ink-800 border border-ink-700 rounded-xl px-3 py-2.5 sm:px-4 sm:py-3 text-parchment-100 text-sm placeholder-parchment-500 focus:outline-none focus:border-ochre-400 focus:ring-1 focus:ring-ochre-400 transition-all"
                 disabled={isLoading}
               />
               <button
                 type="submit"
                 disabled={!input.trim() || isLoading}
-                className="bg-ochre-400 text-ink-950 rounded-xl px-3 py-2.5 sm:px-4 sm:py-3 font-medium hover:bg-ochre-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-1 sm:space-x-2"
+                className="bg-ochre-400 text-ink-950 rounded-xl px-3 py-2.5 sm:px-4 sm:py-3 font-medium hover:bg-ochre-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 sm:gap-2"
               >
                 <span className="text-sm hidden sm:inline">Send</span>
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                 </svg>
               </button>
             </form>
             <p className="text-[10px] sm:text-xs text-parchment-500 text-center mt-2">
-              Powered by Groq API • Llama 3.3 70B
+              Powered by Groq · Llama 3.3 70B · AI can make mistakes
             </p>
           </div>
         </div>
