@@ -76,7 +76,7 @@ No cloud-partner status is claimed from individual certifications.
 
 ## 6. Screenshot and media needs
 
-All 15 project visuals are branded placeholders (1200×630) and are labelled as pending in the case studies. They are not fabricated product UI.
+All 15 project visuals are clean branded placeholders (1200×630). They are not fabricated product UI; replacement needs are tracked here.
 
 Replace with authentic 1200×630 captures when available:
 

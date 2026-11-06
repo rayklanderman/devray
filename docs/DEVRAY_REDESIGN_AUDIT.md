@@ -70,7 +70,7 @@ The repository already had a partial Forest-Ink / Gold-Ochre redesign: tokens, F
 
 ## 3. Known limitations
 
-- All project visuals are branded placeholders. They are explicitly labelled "Case-study visual pending" and are not fabricated product UI. Real 1200×630 captures are still needed.
+- All project visuals are clean branded placeholders. They are not fabricated product UI; real 1200×630 captures are still needed and tracked in `DEVRAY_CONTENT_VERIFICATION.md`.
 - `public/og-image.png` is a generated brand card, not a product screenshot.
 - Real Formspree delivery was not exercised to avoid sending a live inquiry. Validation, origin, honeypot and failure paths were tested.
 - Live Groq responses were not tested because `GROQ_API_KEY` is not set locally; the missing-key path returns 503 with no secret leakage.

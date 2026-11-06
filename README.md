@@ -42,7 +42,7 @@ Open http://localhost:3000.
 - `src/data/index.ts` is the canonical source for navigation, services, the 15-project case-study catalogue, homepage supporting content, FAQs, process steps, education, certifications and founder profile.
 - `src/types/index.ts` defines the content model.
 - `src/app/work/[slug]/page.tsx` prerenders every project in the catalogue via `generateStaticParams`.
-- `public/projects/` currently contains branded placeholder visuals, not authentic product captures. Replace them with real screenshots when available; the placeholders are explicitly labelled as pending rather than fabricating product UI.
+- `public/projects/` currently contains clean branded placeholder visuals, not authentic product captures. Replace them with real screenshots when available; missing assets are tracked in `docs/DEVRAY_CONTENT_VERIFICATION.md` rather than fabricating product UI.
 
 ## Design system
 

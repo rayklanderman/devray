@@ -99,7 +99,7 @@ Full details: `docs/DEVRAY_CONTENT_VERIFICATION.md`.
 1. **Live Formspree delivery** — a real submission would send an actual inquiry. The endpoint, validation and failure handling are implemented; delivery should be tested with a safe test form before launch.
 2. **Live Groq response** — `GROQ_API_KEY` is not present locally. The missing-key path and input validation are tested.
 3. **Visual/Lighthouse/screen-reader QA** — not available in this environment.
-4. **Real project screenshots** — all 15 visuals are branded placeholders explicitly marked as pending.
+4. **Real project screenshots** — all 15 visuals are clean branded placeholders; replacement assets are tracked in the content verification doc.
 5. **Email deliverability** — `info@devray.site` was not sent a test message.
 6. **Full social-profile sweep** — LinkedIn and some profile destinations were not fetched due to bot/redirect behaviour; exact URLs are used.
 

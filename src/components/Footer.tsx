@@ -168,11 +168,7 @@ export default function Footer() {
 
         <div className="border-t border-ink-700 mt-10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-parchment-500">
           <p>&copy; {new Date().getFullYear()} DevRay. All rights reserved.</p>
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link href="/privacy" className="hover:text-ochre-300 transition-colors">Privacy</Link>
-            <span aria-hidden="true">·</span>
-            <span>Built with Next.js, TypeScript and Tailwind CSS</span>
-          </div>
+          <Link href="/privacy" className="hover:text-ochre-300 transition-colors">Privacy</Link>
         </div>
       </div>
     </footer>

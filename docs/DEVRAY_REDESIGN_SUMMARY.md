@@ -77,7 +77,7 @@ Added: audience/problem strip; four core services with buyable outcomes and cont
 
 ## 5. Remaining limitations
 
-1. All 15 project visuals are branded placeholders labelled as pending; replace with authentic 1200×630 captures.
+1. All 15 project visuals are clean branded placeholders; replace with authentic 1200×630 captures.
 2. Confirm `GROQ_API_KEY` in Vercel before relying on `/chat`.
 3. Send one controlled test inquiry through the Formspree form and confirm delivery.
 4. Run Lighthouse, keyboard/screen-reader and 320/375/768/1024/1440 visual checks.
