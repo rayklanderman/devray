@@ -267,12 +267,12 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
                   View source<span className="sr-only"> (opens in a new tab)</span>
                 </a>
               )}
-              <a
+              <Link
                 href={`/?source=case-${project.slug}#contact`}
                 className="inline-flex items-center justify-center px-6 py-3 border border-ochre-500/40 text-parchment-100 rounded-lg hover:bg-ink-800 hover:border-ochre-400 transition-colors font-semibold text-sm"
               >
                 Discuss a project like this
-              </a>
+              </Link>
             </section>
 
             <footer className="mt-16 pt-8 border-t border-ink-700 text-xs text-parchment-500">

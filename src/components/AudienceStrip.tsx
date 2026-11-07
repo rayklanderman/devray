@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { painPoints } from '@/data';
 import { Reveal } from '@/components/motion/Reveal';
 
@@ -21,7 +22,7 @@ export default function AudienceStrip() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {painPoints.map((point) => (
-              <a
+              <Link
                 key={point.title}
                 href={point.serviceId ? `/?service=${point.serviceId}#contact` : '/#contact'}
                 className="group block p-5 bg-ink-950/70 rounded-xl border border-ink-700 hover:border-ochre-500/50 transition-colors"
@@ -35,7 +36,7 @@ export default function AudienceStrip() {
                     →
                   </span>
                 </span>
-              </a>
+              </Link>
             ))}
           </div>
         </div>

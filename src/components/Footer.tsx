@@ -141,7 +141,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="text-parchment-500 hover:text-ochre-300 transition-colors"
                 >
-                  Technical portfolio ↗
+                  Technical portfolio ↗<span className="sr-only"> (opens in a new tab)</span>
                 </a>
               </li>
               <li>
@@ -151,7 +151,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="text-parchment-500 hover:text-ochre-300 transition-colors"
                 >
-                  LinkedIn ↗
+                  LinkedIn ↗<span className="sr-only"> (opens in a new tab)</span>
                 </a>
               </li>
               <li>

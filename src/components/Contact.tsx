@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 const serviceOptions = [
   { value: '', label: 'Select a service category (optional)' },
@@ -72,9 +73,7 @@ export default function Contact() {
   const [source, setSource] = useState('');
 
   useEffect(() => {
-    // Read contextual CTA parameters after paint so the server-rendered form
-    // stays stable during hydration.
-    const frame = window.requestAnimationFrame(() => {
+    const applyUrlParams = () => {
       const params = new URLSearchParams(window.location.search);
       const requestedService = params.get('service');
       const requestedSource = params.get('source');
@@ -82,7 +81,7 @@ export default function Contact() {
         const mapped = serviceParamMap[requestedService] ?? requestedService;
         const valid = serviceOptions.some((option) => option.value === mapped);
         if (valid) {
-          setFormData((prev) => (prev.service ? prev : { ...prev, service: mapped }));
+          setFormData((prev) => ({ ...prev, service: mapped }));
         }
       }
       if (requestedSource) {
@@ -90,9 +89,17 @@ export default function Contact() {
       } else if (requestedService) {
         setSource(`service-${requestedService}`.slice(0, 120));
       }
-    });
+    };
 
-    return () => window.cancelAnimationFrame(frame);
+    const frame = window.requestAnimationFrame(applyUrlParams);
+    window.addEventListener('popstate', applyUrlParams);
+    window.addEventListener('hashchange', applyUrlParams);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener('popstate', applyUrlParams);
+      window.removeEventListener('hashchange', applyUrlParams);
+    };
   }, []);
 
   const validate = () => {
@@ -263,9 +270,9 @@ export default function Contact() {
               <p className="text-sm text-parchment-500 leading-relaxed">
                 Your details are used to respond to this inquiry and are delivered through Formspree.
                 Read the{' '}
-                <a href="/privacy" className="text-ochre-400 hover:text-ochre-300 underline underline-offset-2">
+                <Link href="/privacy" className="text-ochre-400 hover:text-ochre-300 underline underline-offset-2">
                   privacy notice
-                </a>
+                </Link>
                 . Do not send passwords, API keys or sensitive personal data through this form.
               </p>
             </div>
@@ -461,9 +468,9 @@ export default function Contact() {
                   <span>
                     I agree that DevRay may use these details to respond to my inquiry, as described in
                     the{' '}
-                    <a href="/privacy" className="text-ochre-400 hover:text-ochre-300 underline underline-offset-2">
+                    <Link href="/privacy" className="text-ochre-400 hover:text-ochre-300 underline underline-offset-2">
                       privacy notice
-                    </a>
+                    </Link>
                     . <span className="text-ochre-400">*</span>
                   </span>
                 </label>

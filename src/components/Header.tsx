@@ -117,7 +117,7 @@ export default function Header() {
               rel="noopener noreferrer"
               className="text-xs text-parchment-500 hover:text-ochre-300 transition-colors"
             >
-              Portfolio ↗
+              Portfolio ↗<span className="sr-only"> (opens in a new tab)</span>
             </a>
             <Link
               href="/#contact"
@@ -154,7 +154,7 @@ export default function Header() {
             animate={{ height: 'auto', opacity: 1 }}
             exit={reduce ? undefined : { height: 0, opacity: 0 }}
             transition={{ duration: 0.25, ease: [0.21, 0.47, 0.32, 0.98] }}
-            className="lg:hidden bg-ink-950 border-t border-ink-700 overflow-hidden"
+            className="lg:hidden bg-ink-950 border-t border-ink-700 max-h-[calc(100vh-4rem)] overflow-y-auto"
           >
             <nav className="px-4 py-4 space-y-1" aria-label="Mobile">
               {navItems.map((item) => (
@@ -179,7 +179,7 @@ export default function Header() {
                 className="block px-4 py-2.5 rounded-lg text-sm text-parchment-500 hover:bg-ink-900 hover:text-ochre-300 transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Technical Portfolio ↗
+                Technical Portfolio ↗<span className="sr-only"> (opens in a new tab)</span>
               </a>
               <Link
                 href="/#contact"

@@ -41,7 +41,7 @@ export const services: Service[] = [
     title: 'AI Applications & Intelligent Automation',
     tagline: 'Custom AI assistants, RAG, document processing and workflow automation.',
     description:
-      'Founder-led design and delivery of AI-powered applications: custom assistants, knowledge search and RAG when suitable, document processing, workflow automation, agents, multimodal integration, human-in-the-loop review, and evaluation and safety controls.',
+      'Production-grade generative AI and agentic systems built with strict guardrails, human-in-the-loop oversight, and rigorous evaluation before deployment.',
     for: 'Teams and founders who want to deploy AI in production, not just experiment with it.',
     problem:
       'Generative AI is easy to prototype but hard to operate safely: prompts drift, data leaks, and demos rarely survive contact with real users and edge cases.',
@@ -63,7 +63,7 @@ export const services: Service[] = [
     title: 'Web Platforms & Custom Software',
     tagline: 'Business portals, dashboards, forms, internal tools and SaaS MVPs.',
     description:
-      'Full-stack web platforms: business portals, dashboards, forms, internal tools, content platforms, SaaS MVPs, database and API integrations, and authentication with role-based permissions.',
+      'Robust, scalable web applications and internal tools designed to eliminate operational bottlenecks, with clean data models and role-based security.',
     for: 'Organisations needing a secure, role-based web platform or an internal tool to replace spreadsheets and manual processes.',
     problem:
       'Off-the-shelf SaaS rarely fits an organisation’s actual workflow, and custom builds often stall because requirements were never captured rigorously.',
@@ -85,7 +85,7 @@ export const services: Service[] = [
     title: 'Mobile Applications',
     tagline: 'Flutter cross-platform Android and iOS apps with offline and device capabilities.',
     description:
-      'Flutter mobile applications with accessible design, offline features when appropriate, device API integration, API integration, and testing — with an Android and iOS deliverable scope agreed up front.',
+      'Accessible, high-performance Flutter mobile apps engineered from a single codebase, featuring offline-first data sync, native device integrations and structured test coverage.',
     for: 'Clients who need a cross-platform mobile app from a single codebase, including offline-capable or accessibility-focused experiences.',
     problem:
       'Building separate native Android and iOS apps doubles cost and maintenance; cross-platform work needs careful offline and performance design to feel native.',
@@ -108,7 +108,7 @@ export const services: Service[] = [
     title: 'Data Analytics & Applied ML',
     tagline: 'Cleaning, dashboards, forecasting, recommendation prototypes and model evaluation.',
     description:
-      'Data cleaning, dashboards, forecasting and recommendation prototypes, model evaluation, and decision-support workflows — with clear limitations stated up front.',
+      'Practical data engineering and predictive machine learning models with honest performance bounds, designed to guide concrete business decisions.',
     for: 'Teams sitting on data who want dashboards, forecasts or recommendations, and who need honest boundaries on what the model can and cannot promise.',
     problem:
       'Analytics projects often over-promise on accuracy or adoption; a model’s public-leaderboard score does not translate directly to a customer KPI.',
@@ -777,14 +777,14 @@ export const painPoints: PainPoint[] = [
     serviceId: 'web-platforms',
   },
   {
-    title: 'Building a portal or SaaS MVP?',
-    description: 'Get the data model, permissions, integrations and interface designed as one coherent product.',
-    serviceId: 'web-platforms',
-  },
-  {
     title: 'Modernising a mobile workflow?',
     description: 'Design a Flutter app around offline use, device APIs and accessibility from the start.',
     serviceId: 'mobile-applications',
+  },
+  {
+    title: 'Sitting on data without clear decisions?',
+    description: 'Turn messy records into decision-support dashboards, recommender prototypes and evaluated ML models.',
+    serviceId: 'data-analytics-ml',
   },
 ];
 

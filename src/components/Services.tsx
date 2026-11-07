@@ -151,12 +151,12 @@ export default function Services() {
               )}
 
               <div className="mt-6">
-                <a
+                <Link
                   href={`/?service=${service.id}#contact`}
                   className="inline-flex items-center gap-2 text-sm font-semibold text-ochre-400 hover:text-ochre-300 transition-colors"
                 >
                   Discuss this service <span aria-hidden="true">→</span>
-                </a>
+                </Link>
               </div>
             </TiltCard>
           ))}
@@ -193,12 +193,12 @@ export default function Services() {
                 ))}
               </ul>
 
-              <a
+              <Link
                 href={`/?service=${service.id}#contact`}
                 className="mt-auto text-xs font-semibold text-ochre-400 hover:text-ochre-300 transition-colors"
               >
                 Discuss this capability →
-              </a>
+              </Link>
             </motion.div>
           ))}
         </StaggerGrid>
