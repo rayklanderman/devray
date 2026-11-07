@@ -105,9 +105,7 @@ export default function ProjectCard({
               {project.award}
             </span>
           )}
-          <span className="bg-ink-950/85 text-ochre-300 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-widest border border-ochre-500/40">
-            Signature
-          </span>
+          
         </span>
       </Link>
 
