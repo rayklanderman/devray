@@ -17,7 +17,7 @@ The site now presents DevRay as a founder-led software and applied-AI engineerin
 - Added Header/Footer to `/work` and case-study pages.
 - Removed the expired WeatherWise live URL.
 - Replaced the broken generic Credly profile URL.
-- Removed the old `devray.site` sitemap/robots files and generated canonical versions.
+- Removed the old `devray.qzz.io` sitemap/robots files and generated canonical versions.
 
 ### Homepage architecture
 Added: audience/problem strip; four core services with buyable outcomes and contextual CTAs; six selected case studies; Why DevRay; six-stage process with deliverables; founder section; FAQ; conversion-focused contact.
@@ -31,7 +31,7 @@ Added: audience/problem strip; four core services with buyable outcomes and cont
 ### Conversion
 - Inquiry form with name, email, organisation, category, budget range, timeframe, description and consent.
 - Client and server validation, honeypot, origin check, rate limit and server-side Formspree delivery.
-- Real error state with `mailto:info@devray.site` fallback; no fake success.
+- Real error state with `mailto:info@devray.qzz.io` fallback; no fake success.
 - Contextual `service` / `source` identifiers; privacy page added.
 
 ### SEO, accessibility, performance, security
@@ -81,7 +81,7 @@ Added: audience/problem strip; four core services with buyable outcomes and cont
 2. Confirm `GROQ_API_KEY` in Vercel before relying on `/chat`.
 3. Send one controlled test inquiry through the Formspree form and confirm delivery.
 4. Run Lighthouse, keyboard/screen-reader and 320/375/768/1024/1440 visual checks.
-5. Confirm `info@devray.site` is monitored and deliverable.
+5. Confirm `info@devray.qzz.io` is monitored and deliverable.
 6. Consider a real analytics/privacy decision if analytics is added later.
 
 ## 6. Deployment

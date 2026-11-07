@@ -157,7 +157,7 @@ export default function Contact() {
         setServerError(
           typeof data.error === 'string'
             ? data.error
-            : 'The message could not be sent. Please email info@devray.site instead.'
+            : 'The message could not be sent. Please email info@devray.qzz.io instead.'
         );
         return;
       }
@@ -167,7 +167,7 @@ export default function Contact() {
       setErrors({});
     } catch {
       setStatus('error');
-      setServerError('The message could not be sent. Please check your connection or email info@devray.site.');
+      setServerError('The message could not be sent. Please check your connection or email info@devray.qzz.io.');
     }
   };
 
@@ -224,8 +224,8 @@ export default function Contact() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-parchment-100">Email</h3>
-                  <a href="mailto:info@devray.site" className="text-parchment-300 hover:text-ochre-300 transition-colors">
-                    info@devray.site
+                  <a href="mailto:info@devray.qzz.io" className="text-parchment-300 hover:text-ochre-300 transition-colors">
+                    info@devray.qzz.io
                   </a>
                   <p className="text-sm text-parchment-500 mt-1">
                     Prefer email? Send the same details directly.
@@ -503,7 +503,7 @@ export default function Contact() {
                     <p className="font-medium">Your inquiry has been sent.</p>
                     <p className="text-sm mt-1">
                       I will review it and follow up by email to discuss next steps. If you need to add
-                      anything, email info@devray.site.
+                      anything, email info@devray.qzz.io.
                     </p>
                   </div>
                 )}
@@ -513,8 +513,8 @@ export default function Contact() {
                     <p className="font-medium">The message was not sent.</p>
                     <p className="text-sm mt-1">
                       {serverError} You can email{' '}
-                      <a href="mailto:info@devray.site" className="underline underline-offset-2">
-                        info@devray.site
+                      <a href="mailto:info@devray.qzz.io" className="underline underline-offset-2">
+                        info@devray.qzz.io
                       </a>{' '}
                       directly.
                     </p>

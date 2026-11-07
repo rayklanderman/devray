@@ -17,7 +17,7 @@ The repository already had a partial Forest-Ink / Gold-Ochre redesign: tokens, F
 | High | Hero core-service icons never rendered: the icon map used old service IDs while lookup used the new `icon` values. |
 | High | `/work` and `/work/[slug]` were missing the site Header and Footer. |
 | Medium | Contact form declared hidden `_subject`/`_to` fields but never submitted them; all validation was client-side only. |
-| Medium | `sitemap.xml` and `robots.txt` used `devray.site` while the canonical host is `devray.qzz.io`; the sitemap omitted `/work`, case studies and privacy. |
+| Medium | `sitemap.xml` and `robots.txt` used `devray.qzz.io` while the canonical host is `devray.qzz.io`; the sitemap omitted `/work`, case studies and privacy. |
 | Medium | Footer service list used a hard-coded slice/count and did not match the catalogue. |
 | Medium | Homepage lacked the required audience strip, why-DevRay section, process, FAQ, privacy notice and contextual service CTAs. |
 | Medium | Only two services were marked core; the specification requires four. |
@@ -54,7 +54,7 @@ The repository already had a partial Forest-Ink / Gold-Ochre redesign: tokens, F
 - Contact form now collects name, email, organisation, service category, budget range, desired start, project description and privacy consent.
 - Client-side validation plus server-side validation in `/api/contact`.
 - Hidden honeypot, origin check and best-effort rate limit.
-- Inquiries are delivered server-side through Formspree; failures return an error and a real `mailto:info@devray.site` fallback. No fake success state.
+- Inquiries are delivered server-side through Formspree; failures return an error and a real `mailto:info@devray.qzz.io` fallback. No fake success state.
 - Contextual CTAs pass `service` or `source` identifiers; the form includes the source in the delivery payload.
 - Added a truthful `/privacy` page covering the form, Formspree, AI chat/Groq, retention and contact.
 

@@ -36,7 +36,7 @@ The full redesign specified in `DevRay_Lab_Complete_Redesign_Copilot_Master_Prom
 2. Set/confirm `GROQ_API_KEY` on Vercel for `/chat`.
 3. Send one controlled Formspree test inquiry and confirm delivery.
 4. Run Lighthouse, keyboard/screen-reader and responsive visual checks.
-5. Confirm `info@devray.site` is monitored.
+5. Confirm `info@devray.qzz.io` is monitored.
 
 ## Documentation
 

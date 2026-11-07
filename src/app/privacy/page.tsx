@@ -33,8 +33,8 @@ export default function PrivacyPage() {
               <p>
                 DevRay is the services practice of Raymond (DevRay) Klanderman, based in Nairobi, Kenya.
                 Questions about this notice or a request to access or delete information can be sent to{' '}
-                <a href="mailto:info@devray.site" className="text-ochre-400 hover:text-ochre-300 underline underline-offset-2">
-                  info@devray.site
+                <a href="mailto:info@devray.qzz.io" className="text-ochre-400 hover:text-ochre-300 underline underline-offset-2">
+                  info@devray.qzz.io
                 </a>.
               </p>
             </section>
@@ -97,8 +97,8 @@ export default function PrivacyPage() {
                 You can ask what information DevRay holds about you, request a correction, or request
                 deletion. You can also withdraw consent for future contact. These requests are handled
                 by email at{' '}
-                <a href="mailto:info@devray.site" className="text-ochre-400 hover:text-ochre-300 underline underline-offset-2">
-                  info@devray.site
+                <a href="mailto:info@devray.qzz.io" className="text-ochre-400 hover:text-ochre-300 underline underline-offset-2">
+                  info@devray.qzz.io
                 </a>.
               </p>
             </section>
@@ -124,3 +124,4 @@ export default function PrivacyPage() {
     </div>
   );
 }
+

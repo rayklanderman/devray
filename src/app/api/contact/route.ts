@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
     const ip = clientIp(request);
     if (isRateLimited(ip)) {
       return NextResponse.json(
-        { error: 'Too many inquiries from this connection. Please try again later or email info@devray.site.' },
+        { error: 'Too many inquiries from this connection. Please try again later or email info@devray.qzz.io.' },
         { status: 429 }
       );
     }
@@ -173,7 +173,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           error:
-            'The contact service could not accept the message. Please email info@devray.site directly.',
+            'The contact service could not accept the message. Please email info@devray.qzz.io directly.',
         },
         { status: 502 }
       );
@@ -186,8 +186,9 @@ export async function POST(request: NextRequest) {
       error instanceof Error ? error.name : 'Unknown error'
     );
     return NextResponse.json(
-      { error: 'The message could not be sent. Please email info@devray.site directly.' },
+      { error: 'The message could not be sent. Please email info@devray.qzz.io directly.' },
       { status: 500 }
     );
   }
 }
+

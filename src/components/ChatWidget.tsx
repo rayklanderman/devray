@@ -107,7 +107,7 @@ export default function ChatWidget() {
         throw new Error(
           typeof data.error === 'string'
             ? data.error
-            : 'Could not connect to the assistant. Please try again or email info@devray.site.'
+            : 'Could not connect to the assistant. Please try again or email info@devray.qzz.io.'
         );
       }
 
@@ -132,7 +132,7 @@ export default function ChatWidget() {
         content:
           error instanceof Error
             ? error.message
-            : 'I encountered an issue processing your request. Please try again or email info@devray.site.',
+            : 'I encountered an issue processing your request. Please try again or email info@devray.qzz.io.',
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, errorMessage]);
@@ -174,7 +174,7 @@ export default function ChatWidget() {
                       AI
                     </span>
                   </h2>
-                  <p className="text-[11px] text-parchment-500">Groq Llama 3.3 · Online</p>
+                  <p className="text-[11px] text-parchment-500">Groq GPT-OSS · Online</p>
                 </div>
               </div>
 
@@ -296,7 +296,7 @@ export default function ChatWidget() {
                 <Link href="/#contact" onClick={() => setIsOpen(false)} className="text-ochre-400 hover:text-ochre-300 underline">
                   Discuss a project →
                 </Link>
-                <span>info@devray.site</span>
+                <span>info@devray.qzz.io</span>
               </div>
             </div>
           </motion.div>
@@ -331,3 +331,4 @@ export default function ChatWidget() {
     </div>
   );
 }
+

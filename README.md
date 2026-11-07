@@ -55,7 +55,7 @@ Open http://localhost:3000.
 
 1. The browser validates required fields and length limits, then posts JSON to `/api/contact`.
 2. The API route performs the same validation server-side, checks the request origin, enforces a best-effort per-instance rate limit, and rejects the hidden honeypot field.
-3. Valid inquiries are forwarded server-side to Formspree. No fake success state is shown: if Formspree is unavailable, the form returns an error and offers `mailto:info@devray.site`.
+3. Valid inquiries are forwarded server-side to Formspree. No fake success state is shown: if Formspree is unavailable, the form returns an error and offers `mailto:info@devray.qzz.io`.
 4. Contextual CTAs pass a service or source identifier through the URL (for example `/?service=ai-applications#contact`); the form reads it after paint and includes it in the delivery payload.
 
 The default Formspree endpoint is `https://formspree.io/f/mqeebboy`. Set `FORMSPREE_ENDPOINT` to override it.

@@ -109,7 +109,7 @@ export default function DevRayChat() {
         throw new Error(
           typeof data.error === 'string'
             ? data.error
-            : 'I could not connect to the assistant right now. Please try again or email info@devray.site.'
+            : 'I could not connect to the assistant right now. Please try again or email info@devray.qzz.io.'
         );
       }
 
@@ -133,7 +133,7 @@ export default function DevRayChat() {
         content:
           error instanceof Error
             ? error.message
-            : 'I encountered an issue processing your request. Please try again or email info@devray.site.',
+            : 'I encountered an issue processing your request. Please try again or email info@devray.qzz.io.',
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, errorMessage]);
@@ -158,7 +158,7 @@ export default function DevRayChat() {
           </Link>
           <div className="text-right">
             <span className="text-xs text-parchment-500">
-              Llama 3.3 70B via Groq
+              GPT-OSS via Groq
             </span>
           </div>
         </div>
@@ -294,7 +294,7 @@ export default function DevRayChat() {
             </form>
             <div className="flex items-center justify-between mt-2 text-[11px] text-parchment-500">
               <span>Ready for formal scope? <Link href="/#contact" className="text-ochre-400 hover:text-ochre-300 underline">Send an inquiry</Link></span>
-              <span>info@devray.site</span>
+              <span>info@devray.qzz.io</span>
             </div>
           </div>
         </div>

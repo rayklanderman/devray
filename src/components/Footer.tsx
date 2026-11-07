@@ -156,10 +156,10 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="mailto:info@devray.site"
+                  href="mailto:info@devray.qzz.io"
                   className="text-parchment-500 hover:text-ochre-300 transition-colors"
                 >
-                  info@devray.site
+                  info@devray.qzz.io
                 </a>
               </li>
             </ul>

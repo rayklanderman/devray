@@ -44,7 +44,7 @@ Only these public repositories render a Source button.
 | GitHub | https://github.com/rayklanderman | Verified |
 | YouTube | https://www.youtube.com/@RealDevRay | Listed on owner portfolio; not fetched |
 | Instagram | https://www.instagram.com/rayklanderman/ | Preserved from the existing site; not fetched |
-| Business email | info@devray.site | Mailto only; delivery not tested |
+| Business email | info@devray.qzz.io | Mailto only; delivery not tested |
 
 ## 4. Credentials
 

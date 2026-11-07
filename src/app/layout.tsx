@@ -84,7 +84,7 @@ const structuredData = {
       alternateName: 'DevRay Lab',
       url: siteUrl,
       description: siteDescription,
-      email: 'info@devray.site',
+      email: 'info@devray.qzz.io',
       founder: { '@id': `${siteUrl}/#person` },
       areaServed: 'Worldwide',
       sameAs: [
@@ -145,3 +145,4 @@ export default function RootLayout({
     </html>
   );
 }
+

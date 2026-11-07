@@ -6,7 +6,7 @@
 **Founder:** Raymond (DevRay) Klanderman  
 **Canonical LinkedIn:** https://www.linkedin.com/in/rayklanderman/  
 **GitHub:** https://github.com/rayklanderman  
-**Business contact:** info@devray.site (verify against actual configuration)  
+**Business contact:** info@devray.qzz.io (verify against actual configuration)  
 **Purpose:** Turn an attractive but generic services site into a distinctive, technically credible, high-trust website that converts qualified prospective clients into project conversations.
 
 ---
@@ -193,7 +193,7 @@ Form UX:
 - Clear, accessible labels; validation messages; no excessive dropdowns; inline error states; keyboard operation; logical focus; accessible success message.
 - Client-side validation **and** server-side validation and length limits, safe escaping, CSRF protections where applicable, anti-spam honeypot/rate limit/captcha only if necessary.
 - Keep email/notification API credentials on server; don't expose tokens in browser bundle; check sender domain configuration. Never log full PII or secrets in analytics.
-- Confirm message storage/dispatch and fallback; if provider not configured, do **not** display a fake success message. Offer `mailto:info@devray.site` as a fallback if verified deliverable.
+- Confirm message storage/dispatch and fallback; if provider not configured, do **not** display a fake success message. Offer `mailto:info@devray.qzz.io` as a fallback if verified deliverable.
 - No fabricated reply-time guarantee. Instead `I'll review your inquiry and follow up to discuss next steps.`
 - Thank-you or success panel should explain next step and avoid exposing form contents via query strings.
 - Implement a minimal and truthful privacy statement with actual processing/purpose/retention/contact, respecting applicable rules; use current behavior, not a legal-fiction template.

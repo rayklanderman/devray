@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
     const apiKey = process.env.GROQ_API_KEY;
     if (!apiKey) {
       return NextResponse.json(
-        { error: 'AI chat is not configured. Please use the project inquiry form or email info@devray.site.' },
+        { error: 'AI chat is not configured. Please use the project inquiry form or email info@devray.qzz.io.' },
         { status: 503 }
       );
     }
@@ -105,7 +105,7 @@ export async function POST(request: NextRequest) {
         Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile',
+        model: 'openai/gpt-oss-20b',
         messages: [{ role: 'system', content: DEVRAY_SYSTEM_PROMPT }, ...messages],
         temperature: 0.6,
         max_tokens: 1500,
@@ -136,8 +136,9 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Chat API error:', error instanceof Error ? error.name : 'Unknown error');
     return NextResponse.json(
-      { error: 'The assistant could not process the request. Please try again or email info@devray.site.' },
+      { error: 'The assistant could not process the request. Please try again or email info@devray.qzz.io.' },
       { status: 500 }
     );
   }
 }
+
